@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="people">რამდენი ადამიანისათვის ყიდულობთ პროდუქტს?</string>
+    <string name="days">რამდენი დღისათვის?</string>
+    <string name="market">აირჩიეთ მაღაზია</string>
+    <string name="next">შემდეგ</string>
+</resources>

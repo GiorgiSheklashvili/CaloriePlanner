@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="people">For how many people do you buy products?</string>
+    <string name="days">For how many days?</string>
+    <string name="market">Choose market</string>
+    <string name="app_name">CaloriePlanner</string>
+    <string name="next">Next</string>
+    <string-array name="markets_array">
+        <item>Goodwill</item>
+        <item>Nikora</item>
+        <item>Foodmart</item>
+        <item>Spar</item>
+        <item>Nugeshi</item>
+    </string-array>
+</resources>
