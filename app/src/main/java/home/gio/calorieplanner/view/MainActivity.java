@@ -14,19 +14,16 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private TextView txt1;
+public class MainActivity extends AppCompatActivity{
+//    private TextView txt1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Spinner spinner = (Spinner) findViewById(R.id.marketsSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.markets_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        MainFragment mainFragment=new MainFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container,mainFragment).commit();
+
 //        txt1=(TextView) findViewById(R.id.textView);
 //        Realm realm = Realm.getDefaultInstance();
 //        realm.beginTransaction();
@@ -44,13 +41,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        txt1.setText(result1.get(0).getName());
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
