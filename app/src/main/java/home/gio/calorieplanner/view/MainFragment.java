@@ -3,6 +3,7 @@ package home.gio.calorieplanner.view;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,16 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.presenter.CustomAdapter;
 
 
-public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener  {
+public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ImageView plus;
 
     public MainFragment() {
         // Required empty public constructor
@@ -35,19 +38,19 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView=inflater.inflate(R.layout.fragment_main,container,false);
-        mRecyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_View);
-        mLayoutManager=new LinearLayoutManager(getActivity());
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter=new CustomAdapter(0);
-
+        mAdapter = new CustomAdapter(1);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
-}
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package home.gio.calorieplanner.presenter;
 
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,26 +22,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
+        ViewHolder holder=new ViewHolder(view);
+        holder.plusImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count++;
+                notifyItemInserted(count);
+            }
+        });
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.enumTextView.setText("#" + Integer.toString(position));
+        holder.enumTextView.setText("#" + String.valueOf(position+1));
         holder.plusImageView.setImageResource(R.drawable.plus);
     }
 
     @Override
     public int getItemCount() {
-        if (count == 0)
-            return 1;
-        else
             return count;
     }
 
-    public int getCount() {
-        return count;
-    }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +56,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             enumTextView = (TextView) itemView.findViewById(R.id.enumTextView);
             plusImageView = (ImageView) itemView.findViewById(R.id.plusMinusImageView);
             middleView = itemView.findViewById(R.id.emptyView);
+
         }
+
     }
 }
