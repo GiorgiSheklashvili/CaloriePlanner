@@ -8,7 +8,7 @@
         android:id="@+id/enumTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="4"
         android:textSize="30sp"
         />
 
@@ -16,12 +16,17 @@
         android:id="@+id/emptyView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="6" />
+        android:layout_weight="18"
+        android:background="@drawable/bar_design"
+        android:alpha="0.5"
+        />
 
     <ImageView
         android:id="@+id/plusMinusImageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/plus" />
+        android:layout_weight="3"
+        android:src="@drawable/plus"
+        android:contentDescription="@string/plus"
+        />
 </LinearLayout>

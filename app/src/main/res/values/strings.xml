@@ -5,6 +5,9 @@
     <string name="market">Choose market</string>
     <string name="app_name">CaloriePlanner</string>
     <string name="next">Next</string>
+    <string name="day1">Day I</string>
+    <string name="day2">Day II</string>
+    <string name="day3">Day III</string>
     <string-array name="markets_array">
         <item>Goodwill</item>
         <item>Nikora</item>
@@ -12,5 +15,9 @@
         <item>Spar</item>
         <item>Nugeshi</item>
     </string-array>
+    <string name="plus">adding new tabs</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

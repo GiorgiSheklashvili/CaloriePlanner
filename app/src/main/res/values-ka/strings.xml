@@ -4,4 +4,7 @@
     <string name="days">რამდენი დღისათვის?</string>
     <string name="market">აირჩიეთ მაღაზია</string>
     <string name="next">შემდეგ</string>
+    <string name="day1">დღე I</string>
+    <string name="day2">დღე II</string>
+    <string name="day3">დღე III</string>
 </resources>

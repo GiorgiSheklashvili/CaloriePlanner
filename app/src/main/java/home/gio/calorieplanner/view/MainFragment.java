@@ -24,7 +24,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ImageView plus;
 
     public MainFragment() {
         // Required empty public constructor
@@ -42,7 +41,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CustomAdapter(1);
+        mAdapter = new CustomAdapter(1,getActivity());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
