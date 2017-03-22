@@ -7,4 +7,10 @@
     <string name="day1">დღე I</string>
     <string name="day2">დღე II</string>
     <string name="day3">დღე III</string>
+    <string name="protein">ცილა</string>
+    <string name="carb">ნახშირწყლები</string>
+    <string name="fat">ცხიმი</string>
+    <string name="calories">კალორიები</string>
+    <string name="constraint">შეზღუდვა</string>
+    <string name="suggest">შემომთავაზე</string>
 </resources>
