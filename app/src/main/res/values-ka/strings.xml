@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="people">რამდენი ადამიანისათვის ყიდულობთ პროდუქტს?</string>
+    <string name="people">რამდენი ადამიანისათვის ყიდულობთ პროდუქტს?</string>
     <string name="days">რამდენი დღისათვის?</string>
     <string name="market">აირჩიეთ მაღაზია</string>
     <string name="next">შემდეგ</string>
@@ -13,4 +13,5 @@
     <string name="calories">კალორიები</string>
     <string name="constraint">შეზღუდვა</string>
     <string name="suggest">შემომთავაზე</string>
+    <string name="calorieExplanation">თქვენთვის საჭირო კალორიებისა და მაკრონუტრიენტების გასაგებად გამოიყენეთ ეს გამომთვლელი</string>
 </resources>

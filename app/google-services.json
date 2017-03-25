@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "45988967692",
+    "firebase_url": "https://calorieplanner-d5129.firebaseio.com",
+    "project_id": "calorieplanner-d5129",
+    "storage_bucket": "calorieplanner-d5129.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45988967692:android:d9fd5c71e63a839f",
+        "android_client_info": {
+          "package_name": "home.gio.calorieplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45988967692-1docpijojgbmjerr84kem9ub2nrm1vg7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "home.gio.calorieplanner",
+            "certificate_hash": "bd118fdd56f7290e3d4e959bbba83ea42ab3d71a"
+          }
+        },
+        {
+          "client_id": "45988967692-mt03npn0booh8hgqdcicjtijvc5srf72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVkWuSiVxF0wWUp8gaFeQ-LEfFNrinmeI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45988967692-mt03npn0booh8hgqdcicjtijvc5srf72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -44,12 +44,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             public void onClick(View view) {
                 Intent groceriesList=new Intent(context,GroceriesListFragment.class);
                 context.startActivity(groceriesList);
-//                GroceriesListFragment groceriesListFragment = new GroceriesListFragment();
-//                FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
-//                FragmentTransaction transaction=manager.beginTransaction();
-//                transaction.replace(R.id.fragment_main_container,groceriesListFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
+
             }
         });
         return new ViewHolder(view);

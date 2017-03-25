@@ -8,6 +8,19 @@
     <string name="day1">Day I</string>
     <string name="day2">Day II</string>
     <string name="day3">Day III</string>
+    <string name="plus">adding new tabs</string>
+    <string name="protein">Protein</string>
+    <string name="carb">Carbohydrates</string>
+    <string name="fat">Fat</string>
+    <string name="calories">Calories</string>
+    <string name="constraint">Constraint</string>
+    <string name="suggest">Suggest</string>
+    <string name="calorieExplanation">In order to know how many calories and macro nutrients you need, you have use this calculator</string>
+    <string name="weight">weight</string>
+    <string name="lbs">lbs</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string-array name="markets_array">
         <item>Goodwill</item>
         <item>Nikora</item>
@@ -15,12 +28,22 @@
         <item>Spar</item>
         <item>Nugeshi</item>
     </string-array>
-    <string name="plus">adding new tabs</string>
-    <string name="protein">Protein</string>
-    <string name="carb">Carb</string>
-    <string name="fat">Fat</string>
-    <string name="calories">Calories</string>
-    <string name="constraint">Constraint</string>
-    <string name="suggest">Suggest</string>
+    <string-array name="navigation_array">
+        <item>Calculate my calories</item>
+    </string-array>
+    <string name="title_activity_navigation">NavigationActivity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="calculator">Calculator</string>
+    <string name="sex">sex</string>
+    <string name="height">Height</string>
+    <string name="lifestyle">lifestyle</string>
+    <string name="goal">Goal</string>
+    <string name="calculate">calculate</string>
+    <string name="metrics">Units</string>
+    <string name="inches">inches</string>
+    <string name="age">Age</string>
 </resources>
