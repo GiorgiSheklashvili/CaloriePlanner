@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 
 import home.gio.calorieplanner.R;
@@ -21,6 +23,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Button goToList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -38,21 +41,27 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CustomAdapter(1,getContext());
+        mAdapter = new CustomAdapter(1, getContext());
         mRecyclerView.setAdapter(mAdapter);
+        goToList = (Button) rootView.findViewById(R.id.goToShoppingList);
+        goToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new CalculatedCaloriesListFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+            }
+        });
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override

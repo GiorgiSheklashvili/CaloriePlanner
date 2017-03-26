@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         MainFragment mainFragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).addToBackStack(null).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            int count=getFragmentManager().getBackStackEntryCount();
+            if(count!=0)
+                getFragmentManager().popBackStack();
             super.onBackPressed();
         }
     }
@@ -97,8 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_calculator) {
             Fragment fragment = new CalorieCalculatorFragment();
-            FragmentManager fragmentManager =getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_main_container,fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container,fragment).addToBackStack(null).commit();
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

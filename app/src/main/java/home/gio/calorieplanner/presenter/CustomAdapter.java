@@ -3,9 +3,6 @@ package home.gio.calorieplanner.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +17,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private int count;
     private Context context;
 
-    public CustomAdapter(int count, Context context) {
+    public CustomAdapter(final int count, Context context) {
         this.count = count;
         this.context = context;
+
     }
 
     @Override

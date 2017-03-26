@@ -48,4 +48,5 @@ public class CalorieCalculatorFragment extends Fragment {
         return rootView;
     }
 
+
 }
