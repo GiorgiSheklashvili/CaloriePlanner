@@ -1,6 +1,10 @@
 package home.gio.calorieplanner.model;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import home.gio.calorieplanner.Constants;
+import home.gio.calorieplanner.events.CalculatorEvent;
 
 public class CalorieCalculator {
     private double weight;
@@ -23,6 +27,10 @@ public class CalorieCalculator {
         this.fatPercentage = fatPercentage;
         this.carbPercentage = carbPercentage;
         this.age = age;
+    }
+    @Subscribe
+    public Macros onCalculatorEvent(CalculatorEvent event) {
+        return new Macros((int)createDifference(),(int)getAverageProtein(),(int)getAverageFat(),(int)getAverageCarbs());
     }
 
     public double calculateBMR() {

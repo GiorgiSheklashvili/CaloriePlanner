@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 
 import home.gio.calorieplanner.R;
@@ -23,7 +25,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Button goToList;
+
 
     public MainFragment() {
         // Required empty public constructor
@@ -43,15 +45,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CustomAdapter(1, getContext());
         mRecyclerView.setAdapter(mAdapter);
-        goToList = (Button) rootView.findViewById(R.id.goToShoppingList);
-        goToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new CalculatedCaloriesListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
-            }
-        });
-        return rootView;
+
+            return rootView;
     }
 
     @Override

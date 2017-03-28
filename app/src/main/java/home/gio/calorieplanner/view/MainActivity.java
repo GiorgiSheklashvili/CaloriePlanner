@@ -16,10 +16,7 @@ import android.widget.ListView;
 import home.gio.calorieplanner.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    //    private TextView txt1;
     private DrawerLayout mDrawerLayout;
-    private String[] mNavigationList;
-    private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -27,10 +24,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         MainFragment mainFragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -39,43 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-//        mNavigationList = getResources().getStringArray(R.array.navigation_array);
-//        mDrawerList=(ListView)findViewById(R.id.left_drawer);
-//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item,mNavigationList));
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.drawer_open,R.string.drawer_close){
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                getSupportActionBar().setTitle(getTitle());
-//                invalidateOptionsMenu();
-//            }
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                getSupportActionBar().setTitle(getTitle());
-//                invalidateOptionsMenu();
-//            }
-//        };
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-//        txt1=(TextView) findViewById(R.id.textView);
-//        Realm realm = Realm.getDefaultInstance();
-//        realm.beginTransaction();
-//        Product product= realm.createObject(Product.class,"Burger");
-//        product.setAlcohol(0);
-//        product.setQuantity(1);
-//        product.setCarbohydrates(200);
-//        product.setProtein(40);
-//        product.setFat(10);
-//        product.setCalories(product.totalCalories(product.getQuantity()));
-//        realm.commitTransaction();
-//        RealmQuery<Product> query=realm.where(Product.class);
-//        query.equalTo("name","Burger");
-//        RealmResults<Product> result1=query.findAll();
-//        txt1.setText(result1.get(0).getName());
     }
 
 
@@ -84,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            int count=getFragmentManager().getBackStackEntryCount();
-            if(count!=0)
+            int count = getFragmentManager().getBackStackEntryCount();
+            if (count != 0)
                 getFragmentManager().popBackStack();
             super.onBackPressed();
         }
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -100,7 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_calculator) {
             Fragment fragment = new CalorieCalculatorFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container,fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+        }
+        if (id == R.id.persons_list) {
+            Fragment fragment = new CalculatedCaloriesListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

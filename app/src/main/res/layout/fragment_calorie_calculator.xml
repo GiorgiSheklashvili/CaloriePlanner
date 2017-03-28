@@ -5,7 +5,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="home.gio.calorieplanner.view.CalorieCalculatorFragment">
 
@@ -53,11 +53,14 @@
                 android:text="@string/weight" />
 
             <EditText
+                android:id="@+id/weightEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="@string/lbs" />
+                android:hint="@string/kg"
+                android:inputType="numberSigned"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -70,15 +73,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/height" />
+                android:text="@string/height"
+                android:inputType=""
+                />
 
             <EditText
+                android:id="@+id/heightEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="@string/inches"
-                android:inputType="number" />
+                android:hint="@string/cm"
+                android:inputType="numberSigned" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,6 +100,7 @@
                 android:text="@string/age" />
 
             <EditText
+                android:id="@+id/ageEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -164,12 +171,14 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/calculateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/calculate" />
 
         <LinearLayout
+            android:id="@+id/nutritionFactsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
