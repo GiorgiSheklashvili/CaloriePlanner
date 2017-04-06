@@ -24,7 +24,7 @@ class CustomTextWatcher implements TextWatcher {
         int count = s.length();
         String str = s.toString();
         if (count == 1) {
-            if (lastCount != 3 && lastCount!=2 && lastCount!=4 && lastCount!=1) {
+            if (lastCount != 3 && lastCount != 2 && lastCount != 4 && lastCount != 1) {
                 str = str + "'";
                 lastCount = 1;
             } else {
@@ -49,5 +49,6 @@ class CustomTextWatcher implements TextWatcher {
         mEditText.setText(str);
         mEditText.setSelection(mEditText.getText().length());
     }
+
 
 }

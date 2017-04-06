@@ -7,16 +7,18 @@ public class CalculatorEvent {
     public final int height;
     public final int age;
     public final boolean sex;
-    public final String lifestyle;
-    public final String goal;
+    public final double lifestyle;
+    public final int difference;
+    public final double proteinPerPound;
 
-    public CalculatorEvent(boolean unit, int weight, int height, int age, boolean sex, String lifetyle, String goal) {
+    public CalculatorEvent(boolean unit, int weight, int height, int age, boolean sex, double lifestyle, int difference, double proteinPerPound) {
         this.unit = unit;
         this.weight = weight;
         this.height = height;
         this.age = age;
         this.sex = sex;
-        this.lifestyle = lifetyle;
-        this.goal = goal;
+        this.lifestyle = lifestyle;
+        this.difference = difference;
+        this.proteinPerPound = proteinPerPound;
     }
 }

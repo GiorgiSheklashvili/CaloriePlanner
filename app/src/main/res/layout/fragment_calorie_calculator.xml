@@ -198,11 +198,14 @@
                     android:gravity="center"
                     android:text="@string/calories" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/calculationCalories"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:inputType="number"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -217,11 +220,14 @@
                     android:gravity="center"
                     android:text="@string/protein" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/calculationProtein"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:inputType="number"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -236,11 +242,13 @@
                     android:gravity="center"
                     android:text="@string/fat" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/calculationFat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:inputType="number"/>
             </LinearLayout>
 
             <LinearLayout
@@ -255,11 +263,14 @@
                     android:gravity="center"
                     android:text="@string/carb" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/calculationCarbs"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:inputType="number"
+                    />
             </LinearLayout>
 
             <LinearLayout

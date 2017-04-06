@@ -27,6 +27,8 @@ public class MVP_Interfaces {
         view to presenter
      */
     public interface ProvidedPresenterOperations {
+        String sendInches(String inches);
+        void onConfigurationChanged(RequiredViewOperations view);
 
     }
 
@@ -36,7 +38,7 @@ public class MVP_Interfaces {
       Presenter to Model
      */
     public interface ProvidedModelOperations {
-
+        String sendInches(String inches);
     }
 
 
