@@ -19,6 +19,14 @@ public class CalorieCalculator implements MVP_Interfaces.ProvidedModelOperations
     private int fatPercentage;
     private MVP_Interfaces.RequiredPresenterOperations mPresenter;
 
+    public CalorieCalculator() {
+
+    }
+
+    public void setPresenter(MVP_Interfaces.RequiredPresenterOperations presenter) {
+        mPresenter = presenter;
+    }
+
     public CalorieCalculator(double weight, boolean sex, double height, double lifestyle, int difference, double proteinPerPound, int fatPercentage, int age) {
         this.weight = weight;
         this.sex = sex;
@@ -85,14 +93,16 @@ public class CalorieCalculator implements MVP_Interfaces.ProvidedModelOperations
         return (createDifference() - getAverageProtein() * 4 - getAverageFat() * 9) / 4;
     }
 
-    private String convertTofeetInches(String str) throws NumberFormatException {
+    @Override
+    public String convertTofeetInches(String str) throws NumberFormatException {
         Double value = Double.valueOf(str);
         int feet = (int) Math.floor(value / 30.48);
         int inches = (int) Math.round((value / 2.54) - ((int) feet * 12));
         return feet + "' " + inches + "\"";
     }
 
-    private double convertToCentimeter(String feet, String inches) {
+    @Override
+    public double convertToCentimeter(String feet, String inches) {
         double heightInFeet = 0;
         double heightInInches = 0;
         try {
@@ -108,21 +118,22 @@ public class CalorieCalculator implements MVP_Interfaces.ProvidedModelOperations
         return (heightInFeet * 30.48) + (heightInInches * 2.54);
     }
 
-    private int getFeet(String feetAndInches) {
+    public int getFeet(String feetAndInches) {
         Character feet = feetAndInches.charAt(0);
         return Character.getNumericValue(feet);
     }
 
-    private int getInches(String feetAndInches) {
-        return Integer.parseInt(feetAndInches.substring(2, feetAndInches.length() - 1));
+    public int getInches(String feetAndInches) {
+        String inches = feetAndInches.substring(2, feetAndInches.length() - 1);
+        inches = inches.replaceAll("\\s+", "");
+        return Integer.parseInt(inches);
     }
 
     @Override
-    public String sendInches(String inches) {
-        int inchesPart = getInches(inches);
-        if (inchesPart > 12)
-            return "12";
-        else
-            return String.valueOf(inchesPart);
+    public String sendInches(String feetAndInches) {
+        int inchesPart = getInches(feetAndInches);
+        int feetPart = getFeet(feetAndInches);
+        return String.valueOf(Math.round(2.54 * (12 * feetPart + inchesPart)));
     }
+
 }

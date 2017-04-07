@@ -1,6 +1,8 @@
 package home.gio.calorieplanner;
 
 
+import home.gio.calorieplanner.model.CalorieCalculator;
+
 public class MVP_Interfaces {
 
     /*
@@ -28,8 +30,18 @@ public class MVP_Interfaces {
      */
     public interface ProvidedPresenterOperations {
         String sendInches(String inches);
-        void onConfigurationChanged(RequiredViewOperations view);
 
+        double getCentimeters(String feet, String inches);
+
+        double convertToCentimeter(String feet, String inches);
+
+        String convertTofeetInches(String str);
+
+        int getFeet(String feetAndInches);
+
+        int getInches(String feetAndInches);
+
+        void onConfigurationChanged(RequiredViewOperations view);
     }
 
     /*
@@ -39,6 +51,14 @@ public class MVP_Interfaces {
      */
     public interface ProvidedModelOperations {
         String sendInches(String inches);
+
+        double convertToCentimeter(String feet, String inches);
+
+        String convertTofeetInches(String str);
+
+        int getFeet(String feetAndInches);
+
+        int getInches(String feetAndInches);
     }
 
 
