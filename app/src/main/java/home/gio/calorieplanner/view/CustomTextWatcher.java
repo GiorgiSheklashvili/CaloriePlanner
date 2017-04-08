@@ -18,6 +18,7 @@ class CustomTextWatcher implements TextWatcher {
     }
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 
     public void afterTextChanged(Editable s) {
@@ -45,6 +46,14 @@ class CustomTextWatcher implements TextWatcher {
             lastCount = 4;
         } else {
             return;
+        }
+
+        if (count > 1 && Integer.parseInt(str.substring(0, str.indexOf('\''))) == 9) {
+            str = str.replace(str.substring(0, str.indexOf('\'')), "8");
+        }
+
+        if (count > 3 && Integer.parseInt(str.substring(str.indexOf('\'') + 1, str.indexOf('\"'))) > 11) {
+            str = str.replace(str.substring(str.indexOf('\'') + 1, str.indexOf('\"')), "11");
         }
         mEditText.setText(str);
         mEditText.setSelection(mEditText.getText().length());

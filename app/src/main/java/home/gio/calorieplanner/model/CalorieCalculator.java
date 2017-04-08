@@ -1,12 +1,9 @@
 package home.gio.calorieplanner.model;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.CharacterData;
+
 
 import home.gio.calorieplanner.Constants;
 import home.gio.calorieplanner.MVP_Interfaces;
-import home.gio.calorieplanner.events.CalculatorEvent;
 
 public class CalorieCalculator implements MVP_Interfaces.ProvidedModelOperations {
     private double weight;
