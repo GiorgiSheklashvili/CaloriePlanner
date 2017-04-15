@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context="home.gio.calorieplanner.view.CalorieCalculatorFragment">
+        tools:context="home.gio.calorieplanner.ui.fragments.CalorieCalculatorFragment">
 
         <TextView
             android:layout_width="match_parent"
@@ -286,12 +286,14 @@
                     android:text="@string/name_of_person" />
 
                 <EditText
+                    android:id="@+id/name_of_person"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="text" />
+                    android:inputType="textCapSentences"/>
 
                 <Button
+                    android:id="@+id/save_in_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

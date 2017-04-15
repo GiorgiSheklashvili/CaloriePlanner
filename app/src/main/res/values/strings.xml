@@ -20,7 +20,8 @@
     <string name="lbs">lbs</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
+    <string name="preference_file_key">home.gio.calorieplanner.personsDetails</string>
+    <string name="main">Main</string>
     <string-array name="markets_array">
         <item>Goodwill</item>
         <item>Nikora</item>
@@ -50,8 +51,7 @@
     <string name="save_in_list">Save in List</string>
     <string name="go_to_shopping_list">Go to Shopping list</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="deleting_people">deleting people</string>
     <string name="name">Name</string>
     <string name="persons_list">Persons list</string>
