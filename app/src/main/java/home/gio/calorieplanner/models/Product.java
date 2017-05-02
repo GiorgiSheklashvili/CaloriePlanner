@@ -1,23 +1,48 @@
 package home.gio.calorieplanner.models;
 
 import home.gio.calorieplanner.Constants;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
-public class Product extends RealmObject {
-    @Required
-    @PrimaryKey
+public class Product {
     private String name;
-    private int quantity;
     private int calories;
     private int carbohydrates;
     private int protein;
     private int fat;
-    private int alcohol;
+    private String price;
+    private String category;
+    private String subMenu;
+    private String imageURL;
+    private String details;
+
+    public Product() {
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     public int totalCalories(int desiredQuantity) {
-        return desiredQuantity * (alcohol * Constants.ALCOHOL_CALORIES_PER_GRAM + fat * Constants.FAT_CALORIES_PER_GRAM
+        return desiredQuantity * (fat * Constants.FAT_CALORIES_PER_GRAM
                 + carbohydrates * Constants.CARB_CALORIES_PER_GRAM + protein * Constants.PROTEIN_CALORIES_PER_GRAM);
     }
 
@@ -61,19 +86,20 @@ public class Product extends RealmObject {
         this.fat = fat;
     }
 
-    public int getAlcohol() {
-        return alcohol;
+
+    public String getPrice() {
+        return price;
     }
 
-    public void setAlcohol(int alcohol) {
-        this.alcohol = alcohol;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getSubMenu() {
+        return subMenu;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setSubMenu(String subMenu) {
+        this.subMenu = subMenu;
     }
 }

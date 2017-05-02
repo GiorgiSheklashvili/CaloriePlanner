@@ -5,8 +5,10 @@ import android.content.Context;
 import java.util.List;
 
 import home.gio.calorieplanner.models.Person;
+import home.gio.calorieplanner.models.Product;
 
 
 public interface IGroceriesListModel {
-     List<Person> fillPersonList(List<Person> personList, Context context);
+    List<Person> fillPersonList(List<Person> personList, Context context);
+    List<Product> fillProductList(List<Product> productList,Context context);
 }

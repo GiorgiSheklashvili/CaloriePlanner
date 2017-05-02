@@ -15,11 +15,14 @@ import android.widget.AdapterView;
 
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.main.CustomAdapter;
+import home.gio.calorieplanner.main.IMainView;
+import home.gio.calorieplanner.main.MainPresenter;
 
-public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener, IMainView {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private MainPresenter presenter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -33,13 +36,16 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        presenter = new MainPresenter(this);
+        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CustomAdapter(1, getContext());
         mRecyclerView.setAdapter(mAdapter);
-            return rootView;
+        return rootView;
     }
 
     @Override
@@ -66,6 +72,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

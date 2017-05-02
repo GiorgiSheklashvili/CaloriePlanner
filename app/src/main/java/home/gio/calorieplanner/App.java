@@ -2,16 +2,23 @@ package home.gio.calorieplanner;
 
 import android.app.Application;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class App extends Application {
+    private String ITEMS_CHILD_NAME = "items";
+    private DatabaseReference itemsReference;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Realm.init(this);
-        RealmConfiguration config=new RealmConfiguration.Builder().build();
-        Realm.setDefaultConfiguration(config);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        itemsReference = database.getReference(ITEMS_CHILD_NAME);
+    }
+
+    public DatabaseReference getItemsReference() {
+        return itemsReference;
     }
 }

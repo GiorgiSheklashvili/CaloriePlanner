@@ -46,7 +46,6 @@ public class GroceriesViewpagerFragment extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 slide.animate().x(position*slide.getWidth());
-
             }
 
             @Override

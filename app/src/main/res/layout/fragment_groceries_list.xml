@@ -99,19 +99,20 @@
             android:text="@string/constraint" />
 
         <Spinner
-            android:id="@+id/contraintSpinner"
+            android:id="@+id/constraintSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4" />
 
         <Button
+            android:id="@+id/suggestButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="@string/suggest" />
     </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/groceriesListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

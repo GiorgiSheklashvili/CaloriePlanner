@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-
 import java.util.List;
-
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.models.Person;
 
@@ -33,14 +31,14 @@ public class CalculatedCaloriesAdapter extends RecyclerView.Adapter<CalculatedCa
         mCallback = new OnItemRemovedListener() {
             @Override
             public void itemRemoved(int position) {
-                    personList.remove(position);
-                    SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    Gson gson = new Gson();
-                    String toJson = gson.toJson(personList);
-                    editor.putString("oldData", toJson);
-                    editor.commit();
-                    notifyDataSetChanged();
+                personList.remove(position);
+                SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+                String toJson = gson.toJson(personList);
+                editor.putString("oldData", toJson);
+                editor.commit();
+                notifyDataSetChanged();
             }
         };
     }

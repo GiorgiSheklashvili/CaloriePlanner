@@ -1,10 +1,26 @@
 package home.gio.calorieplanner.models;
 
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import java.util.List;
 
-public class RetailChain extends RealmObject {
+
+public class RetailChain {
     private String name;
-    private RealmList<Store> stores;
+    private List<Product> products;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }
