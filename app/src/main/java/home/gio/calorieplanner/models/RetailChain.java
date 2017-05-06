@@ -1,10 +1,11 @@
 package home.gio.calorieplanner.models;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class RetailChain {
+public class RetailChain implements Serializable{
     private String name;
     private List<Product> products;
 

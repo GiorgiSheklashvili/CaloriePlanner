@@ -1,8 +1,10 @@
 package home.gio.calorieplanner.models;
 
+import java.io.Serializable;
+
 import home.gio.calorieplanner.Constants;
 
-public class Product {
+public class Product implements Serializable{
     private String name;
     private int calories;
     private int carbohydrates;

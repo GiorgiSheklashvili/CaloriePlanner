@@ -79,15 +79,17 @@ public class Main implements IMainModel {
                             databaseReference.child("Goodwill").child(productList.get(productList.size() - 1).getCategory().replaceAll("[#$.\\]\\[]", " ")).child(productList.get(productList.size() - 1).getSubMenu().replaceAll("[#$.\\]\\[]", " ")).setValue(productList);
                             productList.clear();
 
-//                    }
-
                         }
-//                    }
                 } catch (Exception ex) {
                     Log.d("network", "error in parsing" + ex.toString());
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void LoadDataFromDatabase() {
+
     }
 
     private String getFat(String details) {
