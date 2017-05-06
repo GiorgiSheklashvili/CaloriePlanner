@@ -37,7 +37,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         presenter = new MainPresenter(this);
-        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
+//        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
