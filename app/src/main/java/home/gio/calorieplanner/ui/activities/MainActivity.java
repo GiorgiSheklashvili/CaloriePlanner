@@ -29,14 +29,12 @@ import home.gio.calorieplanner.ui.fragments.PersonsListFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    SharedPreferences prefs = null;
-    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        prefs = getSharedPreferences("home.gio.calorieplanner", MODE_PRIVATE);
         MainFragment mainFragment = new MainFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,38 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        if (prefs.getBoolean("firstRun", true)) {
-//            mDatabase = FirebaseDatabase.getInstance().getReference();
-//            prefs.edit().putBoolean("firstRun", false).apply();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
-                    System.out.println(categorySnaps);
-                    for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
-                        System.out.println(subMenuSnaps);
-                        for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
-                            System.out.println(itemSnaps);
-                            Log.w("wtf: ", "what happend");
-                        }
-                    }
-                }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("database error: ", "onCancelled", databaseError.toException());
-            }
-        });
-
-
-//        }
-    }
 
     @Override
     public void onBackPressed() {

@@ -49,6 +49,12 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.loadDataFromDatabase(getContext());
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }

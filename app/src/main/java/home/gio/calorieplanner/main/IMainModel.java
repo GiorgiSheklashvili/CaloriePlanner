@@ -5,5 +5,5 @@ import android.content.Context;
 
 public interface IMainModel {
     void parseGoodwillSakvebiProductebiHTML(Context context);
-    void LoadDataFromDatabase();
+    void loadDataFromDatabase(Context context);
 }

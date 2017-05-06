@@ -2,10 +2,14 @@ package home.gio.calorieplanner.main;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +28,8 @@ public class Main implements IMainModel {
     RetailChain retailChain = new RetailChain();
     List<Product> productList = new ArrayList<>();
     private DatabaseReference databaseReference;
+    SharedPreferences prefs = null;
+    private DatabaseReference mDatabase;
 
     @Override
     public void parseGoodwillSakvebiProductebiHTML(final Context context) {
@@ -88,8 +94,36 @@ public class Main implements IMainModel {
     }
 
     @Override
-    public void LoadDataFromDatabase() {
+    public void loadDataFromDatabase(Context context) {
+        prefs = context.getSharedPreferences("home.gio.calorieplanner", context.MODE_PRIVATE);
+//        if (prefs.getBoolean("firstRun", true)) {
+//            mDatabase = FirebaseDatabase.getInstance().getReference();
+//            prefs.edit().putBoolean("firstRun", false).apply();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
+                    System.out.println(categorySnaps);
+                    for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
+                        System.out.println(subMenuSnaps);
+                        for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
+                            System.out.println(itemSnaps);
+                            Log.w("wtf: ", "what happend");
+                        }
+                    }
+                }
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("database error: ", "onCancelled", databaseError.toException());
+            }
+        });
+
+
+//        }
     }
 
     private String getFat(String details) {

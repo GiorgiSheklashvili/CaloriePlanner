@@ -25,4 +25,9 @@ public class MainPresenter implements IMainPresenter {
     public void parseGoodwillSakvebiProductebiHTML(Context context) {
         model.parseGoodwillSakvebiProductebiHTML(context);
     }
+
+    @Override
+    public void loadDataFromDatabase(Context context) {
+        model.loadDataFromDatabase(context);
+    }
 }
