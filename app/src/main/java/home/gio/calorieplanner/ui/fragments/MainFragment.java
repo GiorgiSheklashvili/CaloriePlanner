@@ -93,9 +93,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                             .setMessage("Application must be able to access files on your device, so please grant access from app settings")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent=new Intent();
+                                    Intent intent = new Intent();
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri=Uri.fromParts("package",getContext().getPackageName(),MainFragment.class.getSimpleName());
+                                    Uri uri = Uri.fromParts("package", getContext().getPackageName(), MainFragment.class.getSimpleName());
                                     intent.setData(uri);
                                     startActivity(intent);
                                 }
@@ -107,6 +107,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
 
             }
+        } else {
+            presenter.loadDataFromDatabase(getContext());
         }
 
     }

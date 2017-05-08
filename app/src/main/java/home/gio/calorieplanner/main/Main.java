@@ -23,8 +23,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterInputStream;
 
 import home.gio.calorieplanner.models.Product;
 import home.gio.calorieplanner.models.RetailChain;
@@ -108,47 +113,57 @@ public class Main implements IMainModel {
     @Override
     public void loadDataFromDatabase(Context context) {
         prefs = context.getSharedPreferences("home.gio.calorieplanner", context.MODE_PRIVATE);
-//        if (prefs.getBoolean("firstRun", true)) {
-//            mDatabase = FirebaseDatabase.getInstance().getReference();
-//            prefs.edit().putBoolean("firstRun", false).apply();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
-                    RetailChain retailChain = new RetailChain();
-                    retailChain.setName(categorySnaps.getKey());
-                    for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
-                        for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
-                            for (DataSnapshot productSnaps : itemSnaps.getChildren()) {
-                                Product product = productSnaps.getValue(Product.class);
-                                productList.add(product);
+        if (prefs.getBoolean("firstRun", true)) {
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            prefs.edit().putBoolean("firstRun", false).apply();
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
+                        RetailChain retailChain = new RetailChain();
+                        retailChain.setName(categorySnaps.getKey());
+                        for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
+                            for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
+                                for (DataSnapshot productSnaps : itemSnaps.getChildren()) {
+                                    Product product = productSnaps.getValue(Product.class);
+                                    productList.add(product);
+                                }
                             }
                         }
+                        retailChain.setProducts(productList);
+                        retailChainList.add(retailChain);
                     }
-                    retailChain.setProducts(productList);
-                    retailChainList.add(retailChain);
-                }
-                ObjectOutput out;
-                try {
-                    File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
-                    out = new ObjectOutputStream(new FileOutputStream(outFile));
-                    out.writeObject(retailChainList);
-                    out.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ObjectOutput out;
+                    try {
+                        File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
+                        out = new ObjectOutputStream(new DeflaterOutputStream(new FileOutputStream(outFile)));
+                        out.writeObject(retailChainList);
+                        out.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("database error: ", "onCancelled", databaseError.toException());
+                }
+            });
+        } else {
+            ObjectInput in;
+            try {
+                File inFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
+                ObjectInputStream ois=new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
+                @SuppressWarnings("unchecked")
+                List<RetailChain> list = (List<RetailChain>) ois.readObject();
+                ois.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("database error: ", "onCancelled", databaseError.toException());
-            }
-        });
-
-
-//        }
+        }
     }
 
     private String getFat(String details) {
