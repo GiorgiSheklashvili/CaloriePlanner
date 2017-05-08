@@ -1,8 +1,15 @@
 package home.gio.calorieplanner.main;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.pm.ActivityInfoCompat;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +22,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -116,7 +129,16 @@ public class Main implements IMainModel {
                     retailChain.setProducts(productList);
                     retailChainList.add(retailChain);
                 }
-                System.out.println("shit");
+                ObjectOutput out;
+                try {
+                    File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
+                    out = new ObjectOutputStream(new FileOutputStream(outFile));
+                    out.writeObject(retailChainList);
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

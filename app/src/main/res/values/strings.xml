@@ -50,11 +50,11 @@
     <string name="name_of_person">Name of person</string>
     <string name="save_in_list">Save in List</string>
     <string name="go_to_shopping_list">Go to Shopping list</string>
-
-
     <string name="deleting_people">deleting people</string>
     <string name="name">Name</string>
     <string name="persons_list">Persons list</string>
     <string name="kg">kg</string>
     <string name="cm">cm</string>
+    <string name="permission_write_external_rationale">In order to download product database from server, you must grant access to internal storage</string>
+    <string name="ok">OK</string>
 </resources>
