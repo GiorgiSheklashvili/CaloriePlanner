@@ -21,6 +21,7 @@ import java.util.List;
 
 import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
+import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.models.Person;
 import home.gio.calorieplanner.models.Product;
 import home.gio.calorieplanner.ui.fragments.GroceriesListFragment;
@@ -45,7 +46,7 @@ public class GroceriesList implements IGroceriesListModel {
     public List<Product> fillProductList(List<Product> productList, Context context) {
         App app = (App) context.getApplicationContext();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
+        Main.outRetailChainList.get(0);
 //        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        inputMethodManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(), 0);
 //        Product product = new Product();
@@ -58,8 +59,6 @@ public class GroceriesList implements IGroceriesListModel {
         productList = new ArrayList<>();
         return productList;
     }
-
-
 
 
 }

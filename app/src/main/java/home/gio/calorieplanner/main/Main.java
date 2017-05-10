@@ -42,8 +42,9 @@ import home.gio.calorieplanner.models.Product;
 import home.gio.calorieplanner.models.RetailChain;
 
 public class Main implements IMainModel {
-    RetailChain retailChain = new RetailChain();
-    List<RetailChain> retailChainList = new ArrayList<>();
+    public RetailChain retailChain = new RetailChain();
+    public List<RetailChain> retailChainList = new ArrayList<>();
+    public static List<RetailChain> outRetailChainList = new ArrayList<>();
     private List<Product> productList = new ArrayList<>();
     private DatabaseReference databaseReference;
     private SharedPreferences prefs = null;
@@ -155,9 +156,9 @@ public class Main implements IMainModel {
             ObjectInput in;
             try {
                 File inFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
-                ObjectInputStream ois=new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
-                @SuppressWarnings("unchecked")
-                List<RetailChain> list = (List<RetailChain>) ois.readObject();
+                ObjectInputStream ois = new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
+
+                outRetailChainList = (List<RetailChain>) ois.readObject();
                 ois.close();
             } catch (Exception e) {
                 e.printStackTrace();
