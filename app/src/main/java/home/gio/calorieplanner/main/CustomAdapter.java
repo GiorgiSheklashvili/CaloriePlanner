@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
+import home.gio.calorieplanner.ui.activities.GroceriesViewpagerActivity;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private int count;
@@ -39,7 +39,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.middleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent groceriesList=new Intent(context,GroceriesViewpagerFragment.class);
+                Intent groceriesList=new Intent(context,GroceriesViewpagerActivity.class);
                 context.startActivity(groceriesList);
             }
         });

@@ -1,15 +1,11 @@
 package home.gio.calorieplanner.main;
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.pm.ActivityInfoCompat;
+
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +21,12 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -135,16 +131,9 @@ public class Main implements IMainModel {
                         retailChain.setProducts(productList);
                         retailChainList.add(retailChain);
                     }
-                    ObjectOutput out;
-                    try {
-                        File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
-                        out = new ObjectOutputStream(new DeflaterOutputStream(new FileOutputStream(outFile)));
-                        out.writeObject(retailChainList);
-                        out.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
+                    writeInFile();
+                    outRetailChainList = retailChainList;
                 }
 
                 @Override
@@ -153,18 +142,35 @@ public class Main implements IMainModel {
                 }
             });
         } else {
-            ObjectInput in;
-            try {
-                File inFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
-                ObjectInputStream ois = new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
-
-                outRetailChainList = (List<RetailChain>) ois.readObject();
-                ois.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            readFile();
 
         }
+    }
+
+    private void writeInFile() {
+        ObjectOutput out;
+        try {
+            File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
+            out = new ObjectOutputStream(new DeflaterOutputStream(new FileOutputStream(outFile)));
+            out.writeObject(retailChainList);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void readFile() {
+        ObjectInput in;
+        try {
+            File inFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
+            ObjectInputStream ois = new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
+            outRetailChainList = (List<RetailChain>) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String getFat(String details) {

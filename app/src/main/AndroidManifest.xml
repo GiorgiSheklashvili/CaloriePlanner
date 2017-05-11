@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.fragments.GroceriesViewpagerFragment" />
+        <activity android:name=".ui.activities.GroceriesViewpagerActivity" />
 
     </application>
 

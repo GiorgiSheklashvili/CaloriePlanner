@@ -1,4 +1,4 @@
-package home.gio.calorieplanner.ui.fragments;
+package home.gio.calorieplanner.ui.activities;
 
 
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.grocerieslist.GroceriesViewPagerAdapter;
 
 
-public class GroceriesViewpagerFragment extends AppCompatActivity {
+public class GroceriesViewpagerActivity extends AppCompatActivity {
     GroceriesViewPagerAdapter groceriesViewPagerAdapter;
     ViewPager mViewpager;
     TextView day;
     View slide;
-    public GroceriesViewpagerFragment() {
+    public GroceriesViewpagerActivity() {
         // Required empty public constructor
     }
 

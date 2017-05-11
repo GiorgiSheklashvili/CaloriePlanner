@@ -1,59 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/fragment_groceries_container"-->
+    <!--&gt;-->
 
-    <FrameLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_groceries_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <View
-            android:id="@+id/activity_slide"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/black" />
+            android:layout_height="wrap_content"
+            android:background="@color/grey">
 
-        <LinearLayout
+            <View
+                android:id="@+id/activity_slide"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/day1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/day1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/day2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/day2"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/day3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/day3"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/day1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/day1"
-                android:textColor="@color/white"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/day2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/day2"
-                android:textColor="@color/white"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/day3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/day3"
-                android:textColor="@color/white"
-                android:gravity="center"
-                />
-        </LinearLayout>
-    </FrameLayout>
-
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+    </LinearLayout>
+<!--</FrameLayout>-->

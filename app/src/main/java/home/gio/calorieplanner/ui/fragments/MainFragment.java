@@ -74,9 +74,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
             presenter.loadDataFromDatabase(getContext());
-        }
-        else
-        {
+        } else {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
         }
     }
@@ -119,8 +117,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     presenter.loadDataFromDatabase(getContext());
-                    // permission was granted, Do the
-                    // contacts-related task you need to do.
+                    // permission was granted
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         Snackbar.make(mLayout, R.string.permission_write_external_rationale,
@@ -133,21 +130,21 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                                 })
                                 .show();
                     } else {
-                            new AlertDialog.Builder(getContext())
-                                    .setTitle("Permission is not granted")
-                                    .setMessage("Application must be able to access files on your device, so please grant access from app settings")
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent();
-                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                            Uri uri = Uri.fromParts("package", getContext().getPackageName(), MainFragment.class.getSimpleName());
-                                            intent.setData(uri);
-                                            startActivity(intent);
-                                        }
-                                    })
-                                    .setCancelable(false)
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .show();
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("Permission is not granted")
+                                .setMessage("Application must be able to access files on your device, so please grant access from app settings")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getContext().getPackageName(), MainFragment.class.getSimpleName());
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setCancelable(false)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
 
                     }
 

@@ -2,6 +2,7 @@ package home.gio.calorieplanner.ui.fragments;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +24,6 @@ import java.util.List;
 
 import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.grocerieslist.GroceriesListAdapter;
 import home.gio.calorieplanner.grocerieslist.GroceriesListPresenter;
 import home.gio.calorieplanner.grocerieslist.IGroceriesListView;
 import home.gio.calorieplanner.models.Person;
@@ -54,8 +54,6 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
 
         App app = (App) getContext().getApplicationContext();
         databaseReference = app.getItemsReference();
-
-
         presenter = new GroceriesListPresenter(this);
         presenter.fillProductList(productList, getContext());
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
@@ -116,11 +114,11 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
 
     }
 
+
     @Override
     public void onClick(View view) {
-        Fragment productsCatalog = new ProductsCatalogFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_main_container,productsCatalog).addToBackStack(null).commit();
-
+        ProductsCatalogFragment productsCatalog = new ProductsCatalogFragment();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_groceries_container, productsCatalog).addToBackStack(null).commit();
 //        adapter = new GroceriesListAdapter(R.layout.groceries_list_custom_row, databaseReference, productList);
 //        recyclerView.setAdapter(adapter);
     }
