@@ -12,6 +12,6 @@
     <string name="fat">ცხიმი</string>
     <string name="calories">კალორიები</string>
     <string name="constraint">შეზღუდვა</string>
-    <string name="suggest">შემომთავაზე</string>
+    <string name="AddProducts">დაამატე პროდუქტი</string>
     <string name="calorieExplanation">თქვენთვის საჭირო კალორიებისა და მაკრონუტრიენტების გასაგებად გამოიყენეთ ეს გამომთვლელი</string>
 </resources>

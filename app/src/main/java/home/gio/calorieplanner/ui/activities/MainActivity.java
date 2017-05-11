@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         MainFragment mainFragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main_container, mainFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, mainFragment).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
     }
-
 
 
     @Override

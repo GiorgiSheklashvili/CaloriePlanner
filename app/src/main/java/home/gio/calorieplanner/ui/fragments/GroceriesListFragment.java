@@ -1,6 +1,7 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,9 +40,10 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     private RecyclerView recyclerView;
     //    private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Button suggest;
+    private Button addProduct;
     private FirebaseRecyclerAdapter adapter;
     private DatabaseReference databaseReference;
+
     public GroceriesListFragment() {
         // Required empty public constructor
     }
@@ -55,28 +57,22 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
 
 
         presenter = new GroceriesListPresenter(this);
-        presenter.fillProductList(productList,getContext());
+        presenter.fillProductList(productList, getContext());
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.groceriesListRecyclerView);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        String[] items = new String[]{"None", "Vegetarian", "Vegan", "Raw Vegan", "Paleo"};
         protein = (EditText) rootView.findViewById(R.id.proteinEditText);
         carbs = (EditText) rootView.findViewById(R.id.carbEditText);
         fat = (EditText) rootView.findViewById(R.id.fatEditText);
         calories = (EditText) rootView.findViewById(R.id.caloriesEditText);
-        spinner = (Spinner) rootView.findViewById(R.id.constraintSpinner);
-        suggest = (Button) rootView.findViewById(R.id.suggestButton);
-        suggest.setOnClickListener(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        addProduct = (Button) rootView.findViewById(R.id.addProduct);
+        addProduct.setOnClickListener(this);
         spinner = (Spinner) rootView.findViewById(R.id.nameSpinner);
         namesList = new ArrayList<>();
         namesList.add("None");
         presenter.fillPersonsList(personList, getContext());
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, namesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(nameAdapter);
         spinner.setOnItemSelectedListener(this);
         Bundle args = getArguments();
@@ -122,7 +118,10 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onClick(View view) {
-        adapter = new GroceriesListAdapter(R.layout.groceries_list_custom_row, databaseReference, productList);
-        recyclerView.setAdapter(adapter);
+        Fragment productsCatalog = new ProductsCatalogFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment_main_container,productsCatalog).addToBackStack(null).commit();
+
+//        adapter = new GroceriesListAdapter(R.layout.groceries_list_custom_row, databaseReference, productList);
+//        recyclerView.setAdapter(adapter);
     }
 }

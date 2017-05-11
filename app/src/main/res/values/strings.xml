@@ -14,7 +14,7 @@
     <string name="fat">Fat</string>
     <string name="calories">Calories</string>
     <string name="constraint">Constraint</string>
-    <string name="suggest">Suggest</string>
+    <string name="AddProducts">Add Products</string>
     <string name="calorieExplanation">In order to know how many calories and macro nutrients you need, you have use this calculator</string>
     <string name="weight">Weight</string>
     <string name="lbs">lbs</string>
@@ -57,4 +57,8 @@
     <string name="cm">cm</string>
     <string name="permission_write_external_rationale">In order to download product database from server, you must grant access to internal storage</string>
     <string name="ok">OK</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
 </resources>
