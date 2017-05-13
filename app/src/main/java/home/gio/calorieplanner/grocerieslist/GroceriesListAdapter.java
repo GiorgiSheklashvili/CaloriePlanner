@@ -46,11 +46,11 @@ public class GroceriesListAdapter extends FirebaseRecyclerAdapter<Product, Groce
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.productName)
-        private TextView name;
+        public TextView name;
         @BindView(R.id.productPrice)
-        private TextView price;
+        public TextView price;
         @BindView(R.id.deleteProduct)
-        private ImageView delete;
+        public ImageView delete;
 
         public ViewHolder(View itemView) {
             super(itemView);

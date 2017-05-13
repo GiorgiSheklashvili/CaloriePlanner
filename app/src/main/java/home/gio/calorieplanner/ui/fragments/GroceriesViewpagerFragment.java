@@ -1,10 +1,12 @@
-package home.gio.calorieplanner.ui.activities;
+package home.gio.calorieplanner.ui.fragments;
 
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -14,30 +16,32 @@ import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.grocerieslist.GroceriesViewPagerAdapter;
 
 
-public class GroceriesViewpagerActivity extends AppCompatActivity {
+public class GroceriesViewpagerFragment extends Fragment {
     GroceriesViewPagerAdapter groceriesViewPagerAdapter;
     ViewPager mViewpager;
     TextView day;
     View slide;
-    public GroceriesViewpagerActivity() {
+
+    public GroceriesViewpagerFragment() {
         // Required empty public constructor
     }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_groceries_viewpager);
-        day=(TextView) findViewById(R.id.day1);
-        slide=findViewById(R.id.activity_slide);
-        groceriesViewPagerAdapter = new GroceriesViewPagerAdapter(getSupportFragmentManager());
-        mViewpager = (ViewPager) findViewById(R.id.pager);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_groceries_viewpager, container, false);
+        day = (TextView) view.findViewById(R.id.day1);
+        slide = view.findViewById(R.id.activity_slide);
+        groceriesViewPagerAdapter = new GroceriesViewPagerAdapter(getFragmentManager());
+        mViewpager = (ViewPager) view.findViewById(R.id.pager);
         mViewpager.setAdapter(groceriesViewPagerAdapter);
         day.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                ViewGroup.LayoutParams params=slide.getLayoutParams();
-                params.width=day.getWidth();
-                params.height=day.getHeight();
+                ViewGroup.LayoutParams params = slide.getLayoutParams();
+                params.width = day.getWidth();
+                params.height = day.getHeight();
                 slide.setLayoutParams(params);
                 day.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
@@ -45,7 +49,7 @@ public class GroceriesViewpagerActivity extends AppCompatActivity {
         mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                slide.animate().x(position*slide.getWidth());
+                slide.animate().x(position * slide.getWidth());
             }
 
             @Override
@@ -58,7 +62,9 @@ public class GroceriesViewpagerActivity extends AppCompatActivity {
 
             }
         });
+        return view;
     }
+
 
 }
 

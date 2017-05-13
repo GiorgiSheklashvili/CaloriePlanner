@@ -3,6 +3,8 @@ package home.gio.calorieplanner.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.ui.activities.GroceriesViewpagerActivity;
+import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private int count;
@@ -39,8 +41,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.middleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent groceriesList=new Intent(context,GroceriesViewpagerActivity.class);
-                context.startActivity(groceriesList);
+                GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+//
             }
         });
         return new ViewHolder(view);

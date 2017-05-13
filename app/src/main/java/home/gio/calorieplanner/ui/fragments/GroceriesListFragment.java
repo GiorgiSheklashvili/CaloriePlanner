@@ -118,7 +118,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onClick(View view) {
         ProductsCatalogFragment productsCatalog = new ProductsCatalogFragment();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_groceries_container, productsCatalog).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_main_container, productsCatalog).addToBackStack(null).commit();
 //        adapter = new GroceriesListAdapter(R.layout.groceries_list_custom_row, databaseReference, productList);
 //        recyclerView.setAdapter(adapter);
     }
