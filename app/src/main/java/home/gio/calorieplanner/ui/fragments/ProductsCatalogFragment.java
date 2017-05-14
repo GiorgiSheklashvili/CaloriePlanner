@@ -11,11 +11,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.gio.calorieplanner.R;
+import home.gio.calorieplanner.main.Main;
+import home.gio.calorieplanner.models.Category;
+import home.gio.calorieplanner.models.Product;
+import home.gio.calorieplanner.models.RetailChain;
+import home.gio.calorieplanner.models.SubMenu;
+import home.gio.calorieplanner.productcatalog.CategoryAdapter;
 import home.gio.calorieplanner.productcatalog.IProductCatalogView;
-import home.gio.calorieplanner.productcatalog.MenuAdapter;
 import home.gio.calorieplanner.productcatalog.ProductCatalogPresenter;
 
 
@@ -25,7 +33,6 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
     @BindView(R.id.recycler_view_menu)
     public RecyclerView recyclerView;
 
-    private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProductCatalogPresenter presenter;
 
@@ -43,15 +50,49 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         View rootView = inflater.inflate(R.layout.fragment_products_catalog, container, false);
         ButterKnife.bind(this, rootView);
 
+        List<Category> categories = getCategories();
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
+
+
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MenuAdapter();
-        recyclerView.setAdapter(adapter);
+
+        recyclerView.setAdapter(categoryAdapter);
         String[] items = new String[]{"None", "Vegetarian", "Vegan", "Raw Vegan"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         return rootView;
+    }
+
+    private List<Category> getCategories() {
+        List<Category> categories = new ArrayList<>();
+        String lastCategory = "";
+        for (RetailChain retailChain : Main.outRetailChainList) {
+            for (Product product : retailChain.getProducts()) {
+                if (!lastCategory.equals(product.getCategory())) {
+                    lastCategory = product.getCategory();
+                    categories.add(new Category(product.getCategory(), getSubMenus(retailChain.getProducts(), lastCategory)));
+
+                }
+            }
+
+        }
+        return categories;
+    }
+
+    private List<SubMenu> getSubMenus(List<Product> products, String category) {
+        List<SubMenu> tempList = new ArrayList<>();
+        String lastSubMenu = "";
+        for (Product singleProduct : products) {
+            if (singleProduct.getCategory().equals(category)) {
+                if (!singleProduct.getSubMenu().equals(lastSubMenu)) {
+                    lastSubMenu = singleProduct.getSubMenu();
+                    tempList.add(new SubMenu(lastSubMenu));
+                }
+            }
+        }
+        return tempList;
     }
 
 }

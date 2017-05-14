@@ -5,7 +5,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
@@ -59,16 +60,11 @@
         android:layout_height="1dip"
         android:background="#000000" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/menu_linear_layout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -87,30 +83,4 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-
-        <View
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:background="#000000" />
-
-        <LinearLayout
-            android:id="@+id/items_linear_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/products" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_items"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
