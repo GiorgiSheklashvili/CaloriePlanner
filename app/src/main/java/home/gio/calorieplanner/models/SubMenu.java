@@ -2,11 +2,6 @@ package home.gio.calorieplanner.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.TextView;
-
-/**
- * Created by Gio on 14.05.2017.
- */
 
 public class SubMenu implements Parcelable {
     String subMenuText;
@@ -15,11 +10,9 @@ public class SubMenu implements Parcelable {
         return subMenuText;
     }
 
-    public void setSubMenuText(String subMenuText) {
-        this.subMenuText = subMenuText;
-    }
 
     protected SubMenu(Parcel in) {
+        subMenuText = in.readString();
     }
 
     public SubMenu(String subMenuText) {
@@ -45,5 +38,6 @@ public class SubMenu implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(subMenuText);
     }
 }
