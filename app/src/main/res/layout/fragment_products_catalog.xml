@@ -1,12 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_alignParentTop="true"
+        android:id="@+id/search_linear_layout"
+        android:orientation="horizontal"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
 
         <TextView
             android:layout_width="0dp"
@@ -30,9 +33,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:id="@+id/filter_lineaer_layout"
+        android:layout_below="@id/search_linear_layout"
+        android:orientation="horizontal"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%">
 
         <TextView
             android:layout_width="0dp"
@@ -56,31 +61,60 @@
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#000000" />
+        android:id="@+id/black_line_view"
+        android:layout_below="@+id/filter_lineaer_layout"
+        android:background="#000000"
+        app:layout_heightPercent="0.2%"
+        app:layout_widthPercent="100%" />
 
 
-        <LinearLayout
-            android:id="@+id/menu_linear_layout"
+    <LinearLayout
+        android:id="@+id/recycler_linear_layout"
+        android:layout_below="@+id/black_line_view"
+        android:orientation="vertical"
+        app:layout_heightPercent="69%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/menu" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_menu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/menu" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_below="@+id/recycler_linear_layout"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%"
+        android:gravity="center_vertical"
+        >
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/clear" />
+
+        <Button
+            android:id="@+id/choose_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/choose" />
+    </LinearLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

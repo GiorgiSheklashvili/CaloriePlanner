@@ -15,4 +15,6 @@
     <string name="AddProducts">დაამატე პროდუქტი</string>
     <string name="calorieExplanation">თქვენთვის საჭირო კალორიებისა და მაკრონუტრიენტების გასაგებად გამოიყენეთ ეს გამომთვლელი</string>
     <string name="filter">ფილტრი</string>
+    <string name="clear">გაასუფთავე არჩეულები</string>
+    <string name="choose">პროდუქტების არჩევა</string>
 </resources>

@@ -64,4 +64,6 @@
     <string name="filter">Filter</string>
     <string name="menu">Menu</string>
     <string name="products">Products</string>
+    <string name="clear">Clear choices</string>
+    <string name="choose">Choose products</string>
 </resources>

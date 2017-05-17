@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
@@ -37,10 +38,14 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
     public Spinner spinner;
     @BindView(R.id.recycler_view_menu)
     public RecyclerView recyclerView;
-
+    @BindView(R.id.clear_button)
+    public Button clearBtn;
+    @BindView(R.id.choose_button)
+    public Button chooseBtn;
     private RecyclerView.LayoutManager layoutManager;
     private ProductCatalogPresenter presenter;
     private CategoryAdapter categoryAdapter;
+
 
     public ProductsCatalogFragment() {
         // Required empty public constructor
@@ -54,7 +59,7 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         presenter = new ProductCatalogPresenter(this);
         View rootView = inflater.inflate(R.layout.fragment_products_catalog, container, false);
         ButterKnife.bind(this, rootView);
-        List<Category> categories = getCategories();
+        final List<Category> categories = getCategories();
         categoryAdapter = new CategoryAdapter(categories);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -63,6 +68,18 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        chooseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryAdapter.clearChoices();
+            }
+        });
         return rootView;
     }
 
