@@ -59,7 +59,7 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         presenter = new ProductCatalogPresenter(this);
         View rootView = inflater.inflate(R.layout.fragment_products_catalog, container, false);
         ButterKnife.bind(this, rootView);
-        final List<Category> categories = getCategories();
+        final List<Category> categories = presenter.getCategories();
         categoryAdapter = new CategoryAdapter(categories);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -71,7 +71,7 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
             }
         });
         clearBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,21 +83,6 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         return rootView;
     }
 
-    private List<Category> getCategories() {
-        List<Category> categories = new ArrayList<>();
-        String lastCategory = "";
-        for (RetailChain retailChain : Main.outRetailChainList) {
-            for (Product product : retailChain.getProducts()) {
-                if (!lastCategory.equals(product.getCategory())) {
-                    lastCategory = product.getCategory();
-                    categories.add(new Category(product.getCategory(), getSubMenus(retailChain.getProducts(), lastCategory)));
-
-                }
-            }
-
-        }
-        return categories;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -111,18 +96,6 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         categoryAdapter.onRestoreInstanceState(savedInstanceState);
     }
 
-    private List<SubMenu> getSubMenus(List<Product> products, String category) {
-        List<SubMenu> tempList = new ArrayList<>();
-        String lastSubMenu = "";
-        for (Product singleProduct : products) {
-            if (singleProduct.getCategory().equals(category)) {
-                if (!singleProduct.getSubMenu().equals(lastSubMenu)) {
-                    lastSubMenu = singleProduct.getSubMenu();
-                    tempList.add(new SubMenu(lastSubMenu));
-                }
-            }
-        }
-        return tempList;
-    }
+
 
 }

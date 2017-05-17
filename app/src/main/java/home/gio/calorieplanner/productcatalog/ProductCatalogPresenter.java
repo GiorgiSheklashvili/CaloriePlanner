@@ -2,6 +2,9 @@ package home.gio.calorieplanner.productcatalog;
 
 
 import java.lang.ref.WeakReference;
+import java.util.List;
+
+import home.gio.calorieplanner.models.Category;
 
 public class ProductCatalogPresenter implements IProductCatalogPresenter {
     private ProductCatalog model;
@@ -18,5 +21,8 @@ public class ProductCatalogPresenter implements IProductCatalogPresenter {
         } else {
             throw new NullPointerException("View in unavailable");
         }
+    }
+    public List<Category> getCategories(){
+        return model.getCategories();
     }
 }
