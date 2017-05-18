@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,12 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         ButterKnife.bind(this, rootView);
         final List<Category> categories = presenter.getCategories();
         categoryAdapter = new CategoryAdapter(categories);
+        categoryAdapter.setChildClickListener(new OnCheckChildClickListener() {
+            @Override
+            public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
+                int k = childIndex;
+            }
+        });
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(categoryAdapter);
@@ -71,7 +78,7 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
         clearBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +102,6 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         super.onActivityCreated(savedInstanceState);
         categoryAdapter.onRestoreInstanceState(savedInstanceState);
     }
-
 
 
 }

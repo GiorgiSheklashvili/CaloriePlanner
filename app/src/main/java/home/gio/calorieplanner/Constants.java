@@ -10,6 +10,6 @@ public class Constants {
     public static final double active = 1.725;
     public static final double deficit20=0.80;
     public static final double surplus20=1.20;
-
+    public static final int GOODWILL=0;
 
 }

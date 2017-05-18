@@ -4,11 +4,18 @@ package home.gio.calorieplanner.productcatalog;
 import java.util.ArrayList;
 import java.util.List;
 
+import java8.util.stream.Collectors;
+import java8.util.stream.Stream;
+import java8.util.stream.StreamSupport;
+
+import home.gio.calorieplanner.Constants;
 import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.models.Category;
 import home.gio.calorieplanner.models.Product;
 import home.gio.calorieplanner.models.RetailChain;
 import home.gio.calorieplanner.models.SubMenu;
+import java8.util.J8Arrays;
+import java8.util.stream.RefStreams;
 
 public class ProductCatalog implements IProductCatalogModel {
 
@@ -41,4 +48,12 @@ public class ProductCatalog implements IProductCatalogModel {
         return categories;
     }
 
+    public String identifySubMenu(String group, int index) {
+        List<Product> prod = StreamSupport
+                .stream(Main.outRetailChainList.get(Constants.GOODWILL).getProducts())
+                .filter(item -> item.getCategory().equals(group))
+                .collect(Collectors.toList());
+
+        return null;
+    }
 }
