@@ -1,8 +1,11 @@
 package home.gio.calorieplanner.productcatalog;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
@@ -10,26 +13,27 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import java.util.List;
 
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.models.Category;
-import home.gio.calorieplanner.models.SubMenu;
 
-public class CategoryAdapter extends CheckableChildRecyclerViewAdapter<CategoryViewHolder, SubMenuViewHolder> {
+import home.gio.calorieplanner.models.CategoryForProducts;
+import home.gio.calorieplanner.models.Product;
+import home.gio.calorieplanner.submenuandfilter.CategoryViewHolder;
 
+public class CatalogAdapter extends CheckableChildRecyclerViewAdapter<CategoryViewHolder, ProductViewHolder> {
 
-    public CategoryAdapter(List<Category> groups) {
+    public CatalogAdapter(List<CategoryForProducts> groups) {
         super(groups);
     }
 
     @Override
-    public SubMenuViewHolder onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
+    public ProductViewHolder onCreateCheckChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_row_item_checkable, parent, false);
-        return new SubMenuViewHolder(view);
+        return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindCheckChildViewHolder(SubMenuViewHolder holder, int flatPosition, CheckedExpandableGroup group, int childIndex) {
-        final SubMenu subMenu = (SubMenu) group.getItems().get(childIndex);
-        holder.setSubMenuTextView(subMenu.getSubMenuText());
+    public void onBindCheckChildViewHolder(ProductViewHolder holder, int flatPosition, CheckedExpandableGroup group, int childIndex) {
+        final Product product = (Product) group.getItems().get(childIndex);
+        holder.setCheckedTextView(product.getName() + " ცილა:" + product.getProtein() + " ნახშირწყლები:" + product.getCarbohydrates() + " ცხიმი:" + product.getFat() + " ფასი:" + product.getPrice());
     }
 
     @Override

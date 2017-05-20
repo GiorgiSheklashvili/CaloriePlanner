@@ -30,8 +30,5 @@ public class GroceriesListPresenter implements IGroceriesListPresenter {
         getView().fillPersonList(model.fillPersonList(personList, context));
     }
 
-    @Override
-    public void fillProductList(List<Product> productList,Context context) {
-        getView().fillProductList(model.fillProductList(productList,context));
-    }
+
 }

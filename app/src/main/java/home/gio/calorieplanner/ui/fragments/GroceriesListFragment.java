@@ -1,8 +1,6 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +53,6 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         App app = (App) getContext().getApplicationContext();
         databaseReference = app.getItemsReference();
         presenter = new GroceriesListPresenter(this);
-        presenter.fillProductList(productList, getContext());
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.groceriesListRecyclerView);
         layoutManager = new LinearLayoutManager(getContext());
@@ -117,7 +114,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onClick(View view) {
-        ProductsCatalogFragment productsCatalog = new ProductsCatalogFragment();
+        SubMenuAndFilterFragment productsCatalog = new SubMenuAndFilterFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_main_container, productsCatalog).addToBackStack(null).commit();
 //        adapter = new GroceriesListAdapter(R.layout.groceries_list_custom_row, databaseReference, productList);
 //        recyclerView.setAdapter(adapter);

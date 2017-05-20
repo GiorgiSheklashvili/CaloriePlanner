@@ -1,10 +1,13 @@
 package home.gio.calorieplanner.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 import home.gio.calorieplanner.Constants;
 
-public class Product implements Serializable{
+public class Product implements Serializable,Parcelable{
     private String name;
     private int calories;
     private int carbohydrates;
@@ -18,6 +21,31 @@ public class Product implements Serializable{
 
     public Product() {
     }
+
+    protected Product(Parcel in) {
+        name = in.readString();
+        calories = in.readInt();
+        carbohydrates = in.readInt();
+        protein = in.readInt();
+        fat = in.readInt();
+        price = in.readString();
+        category = in.readString();
+        subMenu = in.readString();
+        imageURL = in.readString();
+        details = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getDetails() {
         return details;
@@ -103,5 +131,24 @@ public class Product implements Serializable{
 
     public void setSubMenu(String subMenu) {
         this.subMenu = subMenu;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(calories);
+        dest.writeInt(carbohydrates);
+        dest.writeInt(protein);
+        dest.writeInt(fat);
+        dest.writeString(price);
+        dest.writeString(category);
+        dest.writeString(subMenu);
+        dest.writeString(imageURL);
+        dest.writeString(details);
     }
 }

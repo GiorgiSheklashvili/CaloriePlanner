@@ -10,5 +10,5 @@ import home.gio.calorieplanner.models.Product;
 
 public interface IGroceriesListModel {
     List<Person> fillPersonList(List<Person> personList, Context context);
-    List<Product> fillProductList(List<Product> productList,Context context);
+
 }

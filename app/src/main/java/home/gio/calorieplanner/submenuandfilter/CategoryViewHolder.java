@@ -1,4 +1,4 @@
-package home.gio.calorieplanner.productcatalog;
+package home.gio.calorieplanner.submenuandfilter;
 
 
 import android.graphics.Typeface;

@@ -42,23 +42,6 @@ public class GroceriesList implements IGroceriesListModel {
         return personList;
     }
 
-    @Override
-    public List<Product> fillProductList(List<Product> productList, Context context) {
-        App app = (App) context.getApplicationContext();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        Main.outRetailChainList.get(0);
-//        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//        inputMethodManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(), 0);
-//        Product product = new Product();
-//        product.setName("asd");
-//        product.setCalories(500);
-//        product.setCarbohydrates(20);
-//        product.setFat(30);
-//        product.setProtein(40);
-//        databaseReference.push().setValue(product);
-        productList = new ArrayList<>();
-        return productList;
-    }
 
 
 }

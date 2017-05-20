@@ -4,9 +4,9 @@ package home.gio.calorieplanner.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,17 +24,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.models.Category;
-import home.gio.calorieplanner.models.Product;
-import home.gio.calorieplanner.models.RetailChain;
-import home.gio.calorieplanner.models.SubMenu;
-import home.gio.calorieplanner.productcatalog.CategoryAdapter;
-import home.gio.calorieplanner.productcatalog.IProductCatalogView;
-import home.gio.calorieplanner.productcatalog.ProductCatalogPresenter;
+import home.gio.calorieplanner.productcatalog.ProductCatalog;
+import home.gio.calorieplanner.submenuandfilter.CategoryAdapter;
+import home.gio.calorieplanner.submenuandfilter.ISubMenuAndFilterView;
+import home.gio.calorieplanner.submenuandfilter.SubMenuAndFilterPresenter;
 
 
-public class ProductsCatalogFragment extends Fragment implements IProductCatalogView {
+public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFilterView {
     @BindView(R.id.constraintSpinner)
     public Spinner spinner;
     @BindView(R.id.recycler_view_menu)
@@ -44,11 +41,11 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
     @BindView(R.id.choose_button)
     public Button chooseBtn;
     private RecyclerView.LayoutManager layoutManager;
-    private ProductCatalogPresenter presenter;
+    private SubMenuAndFilterPresenter presenter;
     private CategoryAdapter categoryAdapter;
+    private List<String> subMenuList;
 
-
-    public ProductsCatalogFragment() {
+    public SubMenuAndFilterFragment() {
         // Required empty public constructor
     }
 
@@ -57,15 +54,17 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new ProductCatalogPresenter(this);
+        presenter = new SubMenuAndFilterPresenter(this);
         View rootView = inflater.inflate(R.layout.fragment_products_catalog, container, false);
         ButterKnife.bind(this, rootView);
+        subMenuList = new ArrayList<>();
         final List<Category> categories = presenter.getCategories();
         categoryAdapter = new CategoryAdapter(categories);
         categoryAdapter.setChildClickListener(new OnCheckChildClickListener() {
             @Override
             public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
-                int k = childIndex;
+                CheckedTextView checkedTextView = (CheckedTextView) v.findViewById(R.id.menu_item_CheckedTextView);
+                subMenuList.add(checkedTextView.getText().toString());
             }
         });
         layoutManager = new LinearLayoutManager(getContext());
@@ -78,7 +77,11 @@ public class ProductsCatalogFragment extends Fragment implements IProductCatalog
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ProductCatalogFragment catalog = new ProductCatalogFragment();
+                Bundle args = new Bundle();
+                args.putStringArrayList("catalogList", (ArrayList<String>) subMenuList);
+                catalog.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
             }
         });
         clearBtn.setOnClickListener(new View.OnClickListener() {
