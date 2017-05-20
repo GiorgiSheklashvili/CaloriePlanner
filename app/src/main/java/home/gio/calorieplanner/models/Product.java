@@ -22,6 +22,19 @@ public class Product implements Serializable,Parcelable{
     public Product() {
     }
 
+    public Product(String name, int calories, int carbohydrates, int protein, int fat, String price, String category, String subMenu, String imageURL, String details) {
+        this.name = name;
+        this.calories = calories;
+        this.carbohydrates = carbohydrates;
+        this.protein = protein;
+        this.fat = fat;
+        this.price = price;
+        this.category = category;
+        this.subMenu = subMenu;
+        this.imageURL = imageURL;
+        this.details = details;
+    }
+
     protected Product(Parcel in) {
         name = in.readString();
         calories = in.readInt();

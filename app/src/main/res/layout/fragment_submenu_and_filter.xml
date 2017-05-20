@@ -19,11 +19,13 @@
             android:text="@string/search" />
 
         <EditText
+            android:id="@+id/search_edittext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6" />
 
         <ImageView
+            android:id="@+id/search_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"

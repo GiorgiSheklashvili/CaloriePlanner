@@ -4,7 +4,6 @@ package home.gio.calorieplanner.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
@@ -25,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.models.Category;
-import home.gio.calorieplanner.productcatalog.ProductCatalog;
 import home.gio.calorieplanner.submenuandfilter.CategoryAdapter;
 import home.gio.calorieplanner.submenuandfilter.ISubMenuAndFilterView;
 import home.gio.calorieplanner.submenuandfilter.SubMenuAndFilterPresenter;
@@ -40,6 +40,10 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
     public Button clearBtn;
     @BindView(R.id.choose_button)
     public Button chooseBtn;
+    @BindView(R.id.search_image)
+    public ImageView searchImage;
+    @BindView(R.id.search_edittext)
+    public TextView searchEdittext;
     private RecyclerView.LayoutManager layoutManager;
     private SubMenuAndFilterPresenter presenter;
     private CategoryAdapter categoryAdapter;
@@ -55,7 +59,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
                              Bundle savedInstanceState) {
 
         presenter = new SubMenuAndFilterPresenter(this);
-        View rootView = inflater.inflate(R.layout.fragment_products_catalog, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_submenu_and_filter, container, false);
         ButterKnife.bind(this, rootView);
         subMenuList = new ArrayList<>();
         final List<Category> categories = presenter.getCategories();
@@ -80,6 +84,16 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
                 ProductCatalogFragment catalog = new ProductCatalogFragment();
                 Bundle args = new Bundle();
                 args.putStringArrayList("catalogList", (ArrayList<String>) subMenuList);
+                catalog.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
+            }
+        });
+        searchImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductCatalogFragment catalog = new ProductCatalogFragment();
+                Bundle args = new Bundle();
+                args.putString("searchInList", searchEdittext.getText().toString());
                 catalog.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
             }

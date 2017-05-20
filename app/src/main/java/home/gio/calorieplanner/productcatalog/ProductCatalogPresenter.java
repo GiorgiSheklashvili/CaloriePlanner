@@ -29,4 +29,9 @@ public class ProductCatalogPresenter implements IProductCatalogPresenter {
     public List<CategoryForProducts> getCategories(ArrayList<String> listOfCategories) {
         return model.getCategories(listOfCategories);
     }
+
+    @Override
+    public List<CategoryForProducts> searchedResults(String word) {
+        return model.searchedResults(word);
+    }
 }
