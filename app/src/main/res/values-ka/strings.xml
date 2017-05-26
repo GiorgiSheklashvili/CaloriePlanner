@@ -17,4 +17,6 @@
     <string name="filter">ფილტრი</string>
     <string name="clear">გაასუფთავე არჩეულები</string>
     <string name="choose">პროდუქტების არჩევა</string>
+    <string name="total_price">საერთო ფასი:</string>
+    <string name="currency"> საერთო ფასი: %1$s ლარი</string>
 </resources>

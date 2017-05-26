@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/filter_lineaer_layout"
+        android:id="@+id/filter_linear_layout"
         android:layout_below="@id/search_linear_layout"
         android:orientation="horizontal"
         app:layout_heightPercent="10%"
@@ -64,7 +64,7 @@
 
     <View
         android:id="@+id/black_line_view"
-        android:layout_below="@+id/filter_lineaer_layout"
+        android:layout_below="@+id/filter_linear_layout"
         android:background="#000000"
         app:layout_heightPercent="0.2%"
         app:layout_widthPercent="100%" />

@@ -12,11 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 
-
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.ui.fragments.CalorieCalculatorFragment;
 import home.gio.calorieplanner.ui.fragments.MainFragment;
 import home.gio.calorieplanner.ui.fragments.PersonsListFragment;
+import home.gio.calorieplanner.ui.fragments.ShoppingListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (id == R.id.persons_list) {
             Fragment fragment = new PersonsListFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+        }
+        if (id == R.id.shopping_list) {
+            Fragment fragment = new ShoppingListFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

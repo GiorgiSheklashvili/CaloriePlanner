@@ -173,7 +173,7 @@ public class Main implements IMainModel {
 
     }
 
-    private String getFat(String details) {
+    public static  String getFat(String details) {
         int index = details.indexOf("ცხიმ");
         if (index == -1)
             return "0";
@@ -183,7 +183,17 @@ public class Main implements IMainModel {
         return matcher.group();
     }
 
-    private String getProtein(String details) {
+    public static  String getPrice(String details) {
+        int index = details.indexOf("ფასი:");
+        if (index == -1)
+            return "0";
+        Pattern pattern = Pattern.compile("\\d+\\.\\d+");
+        Matcher matcher = pattern.matcher(details.substring(index, index + 10));
+        matcher.find();
+        return matcher.group();
+    }
+
+    public static  String getProtein(String details) {
         int index = details.indexOf("ცილა");
         if (index == -1)
             index = details.indexOf("ცილებ");
@@ -192,22 +202,20 @@ public class Main implements IMainModel {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(details.substring(index, index + 15));
         matcher.find();
-
         return matcher.group();
     }
 
-    private String getCarbs(String details) {
+    public static String getCarbs(String details) {
         int index = details.indexOf("ნახშირწყ");
         if (index == -1)
             return "0";
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(details.substring(index, index + 17));
         matcher.find();
-
         return matcher.group();
     }
 
-    private String getCalories(String details) {
+    public static String getCalories(String details) {
         int index = details.indexOf("ენერგეტიკული ღირებულება");
         if (index == -1)
             return "0";

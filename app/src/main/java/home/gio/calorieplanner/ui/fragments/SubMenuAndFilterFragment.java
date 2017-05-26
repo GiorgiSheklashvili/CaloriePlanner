@@ -43,7 +43,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
     @BindView(R.id.search_image)
     public ImageView searchImage;
     @BindView(R.id.search_edittext)
-    public TextView searchEdittext;
+    public TextView searchEditText;
     private RecyclerView.LayoutManager layoutManager;
     private SubMenuAndFilterPresenter presenter;
     private CategoryAdapter categoryAdapter;
@@ -93,7 +93,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
             public void onClick(View v) {
                 ProductCatalogFragment catalog = new ProductCatalogFragment();
                 Bundle args = new Bundle();
-                args.putString("searchInList", searchEdittext.getText().toString());
+                args.putString("searchInList", searchEditText.getText().toString());
                 catalog.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
             }

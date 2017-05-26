@@ -17,7 +17,6 @@ import home.gio.calorieplanner.grocerieslist.GroceriesViewPagerAdapter;
 
 
 public class GroceriesViewpagerFragment extends Fragment {
-    GroceriesViewPagerAdapter groceriesViewPagerAdapter;
     ViewPager mViewpager;
     TextView day;
     View slide;
@@ -26,26 +25,11 @@ public class GroceriesViewpagerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_groceries_viewpager, container, false);
-        day = (TextView) view.findViewById(R.id.day1);
-        slide = view.findViewById(R.id.activity_slide);
-        groceriesViewPagerAdapter = new GroceriesViewPagerAdapter(getFragmentManager());
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mViewpager = (ViewPager) view.findViewById(R.id.pager);
-        mViewpager.setAdapter(groceriesViewPagerAdapter);
-        day.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewGroup.LayoutParams params = slide.getLayoutParams();
-                params.width = day.getWidth();
-                params.height = day.getHeight();
-                slide.setLayoutParams(params);
-                day.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        mViewpager.setAdapter(new GroceriesViewPagerAdapter(getChildFragmentManager()));
         mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -62,6 +46,26 @@ public class GroceriesViewpagerFragment extends Fragment {
 
             }
         });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_groceries_viewpager, container, false);
+        day = (TextView) view.findViewById(R.id.day1);
+        slide = view.findViewById(R.id.activity_slide);
+        day.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ViewGroup.LayoutParams params = slide.getLayoutParams();
+                params.width = day.getWidth();
+                params.height = day.getHeight();
+                slide.setLayoutParams(params);
+                day.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
         return view;
     }
 
