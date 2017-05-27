@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -173,7 +174,7 @@ public class Main implements IMainModel {
 
     }
 
-    public static  String getFat(String details) {
+    public static String getFat(String details) {
         int index = details.indexOf("ცხიმ");
         if (index == -1)
             return "0";
@@ -183,7 +184,7 @@ public class Main implements IMainModel {
         return matcher.group();
     }
 
-    public static  String getPrice(String details) {
+    public static String getPrice(String details) {
         int index = details.indexOf("ფასი:");
         if (index == -1)
             return "0";
@@ -193,7 +194,7 @@ public class Main implements IMainModel {
         return matcher.group();
     }
 
-    public static  String getProtein(String details) {
+    public static String getProtein(String details) {
         int index = details.indexOf("ცილა");
         if (index == -1)
             index = details.indexOf("ცილებ");
@@ -233,5 +234,11 @@ public class Main implements IMainModel {
             return "0";
         return details.substring(index, details.length());
     }
-
+    public List<String> asList(SparseArray<String> sparseArray) {
+        if (sparseArray == null) return null;
+        List<String> arrayList = new ArrayList<String>(sparseArray.size());
+        for (int i = 0; i < sparseArray.size(); i++)
+            arrayList.add(sparseArray.valueAt(i));
+        return arrayList;
+    }
 }

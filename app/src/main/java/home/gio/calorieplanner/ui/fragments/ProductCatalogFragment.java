@@ -1,6 +1,7 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,9 @@ import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickLis
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,9 +84,18 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
         goShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (productList != null) {
+                    Set<String> stringSet = new HashSet<>(productList);
+                    SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putStringSet("shoppinglist", stringSet);
+                    editor.apply();
+                }
+
                 Fragment shoppingFragment = new ShoppingListFragment();
                 Bundle args = new Bundle();
-                args.putStringArrayList("productList",(ArrayList<String>)productList);
+                args.putStringArrayList("productList", (ArrayList<String>) productList);
                 shoppingFragment.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, shoppingFragment).addToBackStack(null).commit();
             }

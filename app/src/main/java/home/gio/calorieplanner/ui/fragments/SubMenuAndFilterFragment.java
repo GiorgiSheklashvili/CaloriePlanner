@@ -15,6 +15,7 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
@@ -68,7 +69,16 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
             @Override
             public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
                 CheckedTextView checkedTextView = (CheckedTextView) v.findViewById(R.id.menu_item_CheckedTextView);
-                subMenuList.add(checkedTextView.getText().toString());
+                if (checked) {
+                    subMenuList.add(checkedTextView.getText().toString());
+                } else {
+                    subMenuList.remove(checkedTextView.getText().toString());
+                }
+                if (subMenuList.size() == 0) {
+                    clearBtn.setEnabled(false);
+                } else {
+                    clearBtn.setEnabled(true);
+                }
             }
         });
         layoutManager = new LinearLayoutManager(getContext());
@@ -81,11 +91,15 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductCatalogFragment catalog = new ProductCatalogFragment();
-                Bundle args = new Bundle();
-                args.putStringArrayList("catalogList", (ArrayList<String>) subMenuList);
-                catalog.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
+                if (subMenuList.size() != 0) {
+                    ProductCatalogFragment catalog = new ProductCatalogFragment();
+                    Bundle args = new Bundle();
+                    args.putStringArrayList("catalogList", (ArrayList<String>) subMenuList);
+                    catalog.setArguments(args);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
+                } else {
+                    Toast.makeText(getContext(), "აირჩიეთ კატეგორიები", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         searchImage.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +112,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
             }
         });
+
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

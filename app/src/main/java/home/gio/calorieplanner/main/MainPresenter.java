@@ -2,8 +2,10 @@ package home.gio.calorieplanner.main;
 
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class MainPresenter implements IMainPresenter {
     WeakReference<IMainView> view;
@@ -29,5 +31,10 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void loadDataFromDatabase(Context context) {
         model.loadDataFromDatabase(context);
+    }
+
+    @Override
+    public List<String> asList(SparseArray<String> sparseArray) {
+        return model.asList(sparseArray);
     }
 }

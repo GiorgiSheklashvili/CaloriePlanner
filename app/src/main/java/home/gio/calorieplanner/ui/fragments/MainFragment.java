@@ -1,10 +1,10 @@
 package home.gio.calorieplanner.ui.fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,16 +21,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 
-import org.w3c.dom.Text;
+import java.util.HashSet;
+import java.util.Set;
 
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.main.CustomAdapter;
+import home.gio.calorieplanner.main.PersonsAdapter;
 import home.gio.calorieplanner.main.IMainView;
 import home.gio.calorieplanner.main.MainPresenter;
-import home.gio.calorieplanner.ui.activities.MainActivity;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener, IMainView {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
@@ -40,12 +38,14 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private RecyclerView.LayoutManager mLayoutManager;
     private MainPresenter presenter;
     private View mLayout, rootView;
-    boolean checkedNeverAskAgain = false;
+    private int numberOfPeople;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    private Set<String> personNamesSet=new HashSet<>();
 
     public MainFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,16 +57,30 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                              Bundle savedInstanceState) {
         presenter = new MainPresenter(this);
 //        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
-
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        numberOfPeople = sharedPreferences.getInt("numberOfPeople", 1);
+        if (sharedPreferences.getStringSet("personNameList", null) != null) {
+            personNamesSet = sharedPreferences.getStringSet("personNameList", null);
+        }
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mLayout = rootView.findViewById(R.id.main_fragment_layout);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CustomAdapter(1, getContext());
+        mAdapter = new PersonsAdapter(numberOfPeople, getContext(),personNamesSet);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        editor = sharedPreferences.edit();
+        editor.putInt("numberOfPeople", mAdapter.getItemCount());
+        editor.putStringSet("personNameList", new HashSet<>(presenter.asList(((PersonsAdapter) mAdapter).personArray)));
+        editor.apply();
+    }
+
 
     @Override
     public void onStart() {
@@ -155,19 +169,4 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

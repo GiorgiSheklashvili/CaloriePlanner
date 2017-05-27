@@ -19,4 +19,5 @@
     <string name="choose">პროდუქტების არჩევა</string>
     <string name="total_price">საერთო ფასი:</string>
     <string name="currency"> საერთო ფასი: %1$s ლარი</string>
+    <string name="name">ადამიანის სახელი</string>
 </resources>

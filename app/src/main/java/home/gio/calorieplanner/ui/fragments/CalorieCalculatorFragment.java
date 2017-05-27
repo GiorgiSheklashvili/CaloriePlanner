@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +97,70 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
         save = (Button) rootView.findViewById(R.id.save_in_list);
         save.setOnClickListener(saveClickListener);
         name = (EditText) rootView.findViewById(R.id.name_of_person);
+        final Drawable drawable = weight.getBackground();
+        weight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (weight.getText().toString().equals(""))
+                    weight.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
+                else {
+                    weight.setBackground(drawable);
+                }
+            }
+        });
+        age.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (age.getText().toString().equals("")) {
+                    age.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
+                } else {
+                    age.setBackground(drawable);
+                }
+            }
+        });
+        height.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (height.getText().toString().equals("")) {
+                    height.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
+                } else {
+                    height.setBackground(drawable);
+                }
+            }
+        });
+
         return rootView;
+
     }
 
     @Override
@@ -132,22 +197,7 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
     View.OnClickListener calculateListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            final Drawable drawable = weight.getBackground();
-            if (weight.getText().toString().equals(""))
-                weight.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
-            else {
-                weight.setBackground(drawable);
-            }
-            if (height.getText().toString().equals("")) {
-                height.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
-            } else {
-                height.setBackground(drawable);
-            }
-            if (age.getText().toString().equals("")) {
-                age.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.red_line));
-            } else {
-                age.setBackground(drawable);
-            }
+
             if (!weight.getText().toString().equals("") && !height.getText().toString().equals("") && !age.getText().toString().equals("")) {
                 if (unit)
                     EventBus.getDefault().post(new CalculatorEvent(unit, (int) Math.round((2.2 * Integer.parseInt(weight.getText().toString()))), Integer.parseInt(height.getText().toString()), Integer.parseInt(age.getText().toString()), sex, lifestyle, difference, proteinPerPound));
@@ -252,6 +302,8 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
                 }
                 unit = false;
             }
+            if (age.getText().toString().length() == 0)
+                age.setText("");
         }
 
         @Override
