@@ -1,8 +1,11 @@
 package home.gio.calorieplanner.main;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -25,17 +28,15 @@ import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
 
 public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHolder> {
-    private int count;
     private Context context;
     private Drawable drawable;
-    public SparseArray<String> personArray = new SparseArray<>();
-    private List<String> personList = new ArrayList<>();
+    public List<String> personList = new ArrayList<>();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
-
-    public PersonsAdapter(final int count, Context context, Set<String> personsSet) {
-        this.count = count;
+    public PersonsAdapter(Context context, List<String> personsList) {
         this.context = context;
-        personList.addAll(personsSet);
+        this.personList = personsList;
     }
 
     @Override
@@ -43,20 +44,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         drawable = holder.nameEditText.getBackground();
-        holder.addProducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.nameEditText.getText().length() == 0) {
-                    holder.nameEditText.setBackground(ContextCompat.getDrawable(parent.getContext(), R.drawable.red_line));
-                    Toast.makeText(parent.getContext(), "შეიყვანეთ სახელი", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
-                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
-                }
-            }
-        });
+        sharedPreferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
         return new ViewHolder(view);
     }
 
@@ -66,20 +54,31 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 if ((int) holder.plusMinusImageView.getTag() == R.drawable.plus) {
-                    count++;
+                    personList.add("");
                     holder.nameEditText.setText("");
                 } else {
-                    count--;
-                    if (!holder.nameEditText.getText().toString().equals("")) {
-                        personArray.remove(position);
-                        if (personList.size() > position)
-                            personList.remove(position);
+                    sharedPreferences.edit().remove(String.valueOf(holder.getAdapterPosition()) + "0").apply();
+                    sharedPreferences.edit().remove(String.valueOf(holder.getAdapterPosition()) + "1").apply();
+                    sharedPreferences.edit().remove(String.valueOf(holder.getAdapterPosition()) + "1").apply();
+
+                    if (holder.getAdapterPosition() < personList.size() - 1) {
+                        for (int i = holder.getAdapterPosition() + 1; i <= personList.size() - 1; i++) {
+                            for (int k = 0; k < 3; k++) {
+                                if (sharedPreferences.contains(String.valueOf(i) + String.valueOf(k))) {
+                                    Set<String> oldSet = sharedPreferences.getStringSet(String.valueOf(i) + String.valueOf(k), null);
+                                    sharedPreferences.edit().remove(String.valueOf(i) + String.valueOf(k)).apply();
+                                    sharedPreferences.edit().putStringSet(String.valueOf(i - 1) + String.valueOf(k), oldSet).apply();
+                                }
+                            }
+                        }
                     }
+                    if (personList.size() > holder.getAdapterPosition())
+                        personList.remove(holder.getAdapterPosition());
                 }
                 notifyDataSetChanged();
             }
         });
-        if (position + 1 == count) {
+        if (position + 1 == personList.size()) {
             holder.plusMinusImageView.setImageResource(R.drawable.plus);
             holder.plusMinusImageView.setTag(R.drawable.plus);
             holder.addProducts.setVisibility(View.INVISIBLE);
@@ -103,12 +102,28 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (s.length() != 0)
+                    if (s.length() != 0) {
                         holder.nameEditText.setBackground(drawable);
-                    personArray.put(position, holder.nameEditText.getText().toString());
+                        personList.set(holder.getAdapterPosition(), holder.nameEditText.getText().toString());
+                    }
                 }
             });
         }
+        holder.addProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.nameEditText.getText().length() == 0) {
+                    holder.nameEditText.setBackground(ContextCompat.getDrawable(context, R.drawable.red_line));
+                    Toast.makeText(context, "შეიყვანეთ სახელი", Toast.LENGTH_SHORT).show();
+                } else {
+                    GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
+                    editor = sharedPreferences.edit();
+                    editor.putInt("personRow", holder.getAdapterPosition());
+                    editor.apply();
+                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+                }
+            }
+        });
         if (personList.size() > position) {
             holder.nameEditText.setText(personList.get(position));
         }
@@ -116,7 +131,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return count;
+        return personList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

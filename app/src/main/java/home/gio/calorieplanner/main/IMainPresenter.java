@@ -9,5 +9,4 @@ import java.util.List;
 public interface IMainPresenter {
     void parseGoodwillSakvebiProductebiHTML(Context context);
     void loadDataFromDatabase(Context context);
-    List<String> asList(SparseArray<String> sparseArray);
 }

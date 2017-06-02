@@ -17,6 +17,7 @@ public class GroceriesViewPagerAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         Fragment fragment = new GroceriesListFragment();
         Bundle args = new Bundle();
+        args.putInt("positionOfViewpager",position);
         fragment.setArguments(args);
         return fragment;
     }

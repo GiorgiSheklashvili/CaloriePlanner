@@ -4,6 +4,7 @@ package home.gio.calorieplanner.ui.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +27,6 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.models.CategoryForProducts;
 import home.gio.calorieplanner.productcatalog.CatalogAdapter;
 import home.gio.calorieplanner.productcatalog.IProductCatalogView;
 import home.gio.calorieplanner.productcatalog.ProductCatalogPresenter;
@@ -50,7 +50,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
     @BindView(R.id.clear_button_catalog)
     public Button clear;
     @BindView(R.id.go_to_shopping_product_catalog)
-    public Button goShopping;
+    public Button returnToViewpager;
     private List<String> productList;
 
 
@@ -81,23 +81,28 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
                 recyclerView.swapAdapter(catalogAdapter, true);
             }
         });
-        goShopping.setOnClickListener(new View.OnClickListener() {
+        returnToViewpager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (productList != null) {
                     Set<String> stringSet = new HashSet<>(productList);
+                    Set<String> exactViewPagerStringSet = new HashSet<>(productList);
                     SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    if (sharedPreferences.getStringSet("shoppinglist", null) != null) {
+                        stringSet.addAll(sharedPreferences.getStringSet("shoppinglist", null));
+                    }
+
+                    if (sharedPreferences.getStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), null) != null) {
+                        exactViewPagerStringSet.addAll(sharedPreferences.getStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), null));
+                    }
                     editor.putStringSet("shoppinglist", stringSet);
+                    editor.putStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), exactViewPagerStringSet);
                     editor.apply();
                 }
-
-                Fragment shoppingFragment = new ShoppingListFragment();
-                Bundle args = new Bundle();
-                args.putStringArrayList("productList", (ArrayList<String>) productList);
-                shoppingFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, shoppingFragment).addToBackStack(null).commit();
+                GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
             }
         });
         catalogAdapter.setChildClickListener(new OnCheckChildClickListener() {
@@ -111,6 +116,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
             @Override
             public void onClick(View v) {
                 catalogAdapter.clearChoices();
+                productList.clear();
             }
         });
         recyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler);

@@ -33,8 +33,4 @@ public class MainPresenter implements IMainPresenter {
         model.loadDataFromDatabase(context);
     }
 
-    @Override
-    public List<String> asList(SparseArray<String> sparseArray) {
-        return model.asList(sparseArray);
-    }
 }

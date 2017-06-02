@@ -11,5 +11,5 @@ public interface IMainModel {
 
     void loadDataFromDatabase(Context context);
 
-    List<String> asList(SparseArray<String> sparseArray);
+
 }

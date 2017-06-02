@@ -1,12 +1,12 @@
 package home.gio.calorieplanner.grocerieslist;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 import home.gio.calorieplanner.models.Person;
-import home.gio.calorieplanner.models.Product;
 
 
 public class GroceriesListPresenter implements IGroceriesListPresenter {
@@ -28,6 +28,11 @@ public class GroceriesListPresenter implements IGroceriesListPresenter {
     @Override
     public void fillPersonsList(List<Person> personList, Context context) {
         getView().fillPersonList(model.fillPersonList(personList, context));
+    }
+
+    @Override
+    public void fillProductsList(Activity activity,String position) {
+        getView().fillProductList(model.fillProductsList(activity,position));
     }
 
 

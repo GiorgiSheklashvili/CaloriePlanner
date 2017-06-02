@@ -117,6 +117,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
             @Override
             public void onClick(View view) {
                 categoryAdapter.clearChoices();
+                subMenuList.clear();
             }
         });
         return rootView;

@@ -234,11 +234,4 @@ public class Main implements IMainModel {
             return "0";
         return details.substring(index, details.length());
     }
-    public List<String> asList(SparseArray<String> sparseArray) {
-        if (sparseArray == null) return null;
-        List<String> arrayList = new ArrayList<String>(sparseArray.size());
-        for (int i = 0; i < sparseArray.size(); i++)
-            arrayList.add(sparseArray.valueAt(i));
-        return arrayList;
-    }
 }

@@ -4,36 +4,31 @@ package home.gio.calorieplanner.grocerieslist;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.inputmethod.InputMethodManager;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.models.Person;
-import home.gio.calorieplanner.models.Product;
-import home.gio.calorieplanner.ui.fragments.GroceriesListFragment;
+
 
 public class GroceriesList implements IGroceriesListModel {
     private FirebaseDatabase database;
     private String MESSAGE_CHILD = "Goodwill";
     private DatabaseReference databaseReference;
+    private SharedPreferences sharedPrefs;
 
     @Override
     public List<Person> fillPersonList(List<Person> personList, Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        sharedPrefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Person>>() {
         }.getType();
@@ -42,6 +37,19 @@ public class GroceriesList implements IGroceriesListModel {
         return personList;
     }
 
+    @Override
+    public List<String> fillProductsList(Activity activity, String position) {
+        sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
+        String key = String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
+        Set<String> stringSet = new HashSet<>();
+        if (!key.equals("")) {
+            stringSet = sharedPrefs.getStringSet(key, null);
+        }
+        if (stringSet != null) {
+            return new ArrayList<>(stringSet);
+        } else
+            return null;
+    }
 
 
 }

@@ -1,6 +1,8 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import home.gio.calorieplanner.App;
@@ -25,7 +28,8 @@ import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.grocerieslist.GroceriesListPresenter;
 import home.gio.calorieplanner.grocerieslist.IGroceriesListView;
 import home.gio.calorieplanner.models.Person;
-import home.gio.calorieplanner.models.Product;
+import home.gio.calorieplanner.shoppinglist.ShoppingAdapter;
+import home.gio.calorieplanner.ui.activities.MainActivity;
 
 public class GroceriesListFragment extends Fragment implements AdapterView.OnItemSelectedListener, IGroceriesListView, View.OnClickListener {
     private EditText protein, carbs, fat, calories;
@@ -33,7 +37,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     public Spinner spinner;
     private List<Person> personList;
     private List<String> namesList;
-    private List<Product> productList;
+    private List<String> productList;
     private GroceriesListPresenter presenter;
     private RecyclerView recyclerView;
     //    private RecyclerView.Adapter adapter;
@@ -41,6 +45,10 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     private Button addProduct;
     private FirebaseRecyclerAdapter adapter;
     private DatabaseReference databaseReference;
+    private ShoppingAdapter shoppingAdapter;
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor editor;
+    private int position;
 
     public GroceriesListFragment() {
         // Required empty public constructor
@@ -49,13 +57,20 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        position = getArguments().getInt("positionOfViewpager", -1);
         App app = (App) getContext().getApplicationContext();
         databaseReference = app.getItemsReference();
-        presenter = new GroceriesListPresenter(this);
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.groceriesListRecyclerView);
         layoutManager = new LinearLayoutManager(getContext());
+        presenter = new GroceriesListPresenter(this);
+        presenter.fillPersonsList(personList, getContext());
+        presenter.fillProductsList(getActivity(), String.valueOf(position));
+        if (this.productList != null) {
+            shoppingAdapter = new ShoppingAdapter(productList);
+            recyclerView.setAdapter(shoppingAdapter);
+            shoppingAdapter.notifyDataSetChanged();
+        }
         recyclerView.setLayoutManager(layoutManager);
         protein = (EditText) rootView.findViewById(R.id.proteinEditText);
         carbs = (EditText) rootView.findViewById(R.id.carbEditText);
@@ -66,12 +81,29 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         spinner = (Spinner) rootView.findViewById(R.id.nameSpinner);
         namesList = new ArrayList<>();
         namesList.add("None");
-        presenter.fillPersonsList(personList, getContext());
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, namesList);
         spinner.setAdapter(nameAdapter);
         spinner.setOnItemSelectedListener(this);
         Bundle args = getArguments();
         return rootView;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+        sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (sharedPrefs.getStringSet("savedList" + String.valueOf(position), null) != null) {
+            this.productList.addAll(sharedPrefs.getStringSet("savedList" + String.valueOf(position), null));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
 
@@ -106,7 +138,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     }
 
     @Override
-    public void fillProductList(List<Product> productList) {
+    public void fillProductList(List<String> productList) {
         this.productList = productList;
 
     }

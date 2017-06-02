@@ -1,12 +1,12 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,9 @@ public class GroceriesViewpagerFragment extends Fragment {
     ViewPager mViewpager;
     TextView day;
     View slide;
+    int viewPagerPosition = 0;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public GroceriesViewpagerFragment() {
         // Required empty public constructor
@@ -29,6 +32,8 @@ public class GroceriesViewpagerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         mViewpager = (ViewPager) view.findViewById(R.id.pager);
         mViewpager.setAdapter(new GroceriesViewPagerAdapter(getChildFragmentManager()));
         mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -39,7 +44,10 @@ public class GroceriesViewpagerFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-
+                viewPagerPosition = position;
+//                editor.putString("row", String.valueOf(sharedPreferences.getInt("personRow", -1)));
+                editor.putString("keyOfViewpagerKey", String.valueOf(sharedPreferences.getInt("personRow", -1)) + String.valueOf(viewPagerPosition));
+                editor.apply();
             }
 
             @Override
@@ -47,6 +55,10 @@ public class GroceriesViewpagerFragment extends Fragment {
 
             }
         });
+
+        editor.putString("keyOfViewpagerKey", String.valueOf(sharedPreferences.getInt("personRow", -1)) + String.valueOf(viewPagerPosition));
+        editor.apply();
+
     }
 
     @Nullable

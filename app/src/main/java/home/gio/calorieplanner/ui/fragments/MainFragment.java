@@ -23,7 +23,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import home.gio.calorieplanner.R;
@@ -38,10 +47,10 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private RecyclerView.LayoutManager mLayoutManager;
     private MainPresenter presenter;
     private View mLayout, rootView;
-    private int numberOfPeople;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    private Set<String> personNamesSet=new HashSet<>();
+    //    private Set<String> personNamesSet = new LinkedHashSet<>(Arrays.asList(""));
+    private List<String> listData=new ArrayList<>();
 
     public MainFragment() {
         // Required empty public constructor
@@ -52,32 +61,58 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         presenter = new MainPresenter(this);
 //        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        numberOfPeople = sharedPreferences.getInt("numberOfPeople", 1);
-        if (sharedPreferences.getStringSet("personNameList", null) != null) {
-            personNamesSet = sharedPreferences.getStringSet("personNameList", null);
+        if (!sharedPreferences.getString("personNameList", "").equals("")) {
+            try {
+                JSONArray jsonArray = new JSONArray(sharedPreferences.getString(
+                        "personNameList", null));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    listData.add(jsonArray.getString(i));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(listData.size()==0){
+            listData.add("");
         }
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mLayout = rootView.findViewById(R.id.main_fragment_layout);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_View);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PersonsAdapter(numberOfPeople, getContext(),personNamesSet);
+        mAdapter = new PersonsAdapter(getContext(), listData);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         editor = sharedPreferences.edit();
-        editor.putInt("numberOfPeople", mAdapter.getItemCount());
-        editor.putStringSet("personNameList", new HashSet<>(presenter.asList(((PersonsAdapter) mAdapter).personArray)));
+        Set<String> personSet = new LinkedHashSet<>();
+        if (((PersonsAdapter) mAdapter).personList.size() != 0) {
+            for (String item : ((PersonsAdapter) mAdapter).personList) {
+                if (!item.equals(""))
+                    personSet.add(item);
+            }
+            personSet.add("");
+            editor.putString("personNameList", new JSONArray(personSet).toString());
+            listData.clear();
+        }
+
         editor.apply();
     }
 
