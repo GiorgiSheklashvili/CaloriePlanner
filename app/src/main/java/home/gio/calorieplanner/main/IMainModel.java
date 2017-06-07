@@ -11,5 +11,4 @@ public interface IMainModel {
 
     void loadDataFromDatabase(Context context);
 
-
 }

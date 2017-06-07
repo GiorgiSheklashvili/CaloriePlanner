@@ -33,7 +33,7 @@ public class CatalogAdapter extends CheckableChildRecyclerViewAdapter<CategoryVi
     @Override
     public void onBindCheckChildViewHolder(ProductViewHolder holder, int flatPosition, CheckedExpandableGroup group, int childIndex) {
         final Product product = (Product) group.getItems().get(childIndex);
-        holder.setCheckedTextView(product.getName() + " ცილა:" + product.getProtein() + " ნახშირწყლები:" + product.getCarbohydrates() + " ცხიმი:" + product.getFat() + " ფასი:" + product.getPrice());
+        holder.setCheckedTextView(product.getName() + " ცილა:" + product.getProtein() + " ნახშირწყლები:" + product.getCarbohydrates() + " ცხიმი:" + product.getFat() + " კალორიები:" + product.getCalories() + " ფასი:" + product.getPrice());
     }
 
     @Override

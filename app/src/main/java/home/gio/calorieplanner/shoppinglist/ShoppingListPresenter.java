@@ -2,6 +2,7 @@ package home.gio.calorieplanner.shoppinglist;
 
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 
 public class ShoppingListPresenter implements IShoppingListPresenter {
@@ -20,4 +21,6 @@ public class ShoppingListPresenter implements IShoppingListPresenter {
             throw new NullPointerException("view in unavailable");
         }
     }
+
+
 }

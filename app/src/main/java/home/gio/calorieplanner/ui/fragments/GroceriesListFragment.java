@@ -3,8 +3,10 @@ package home.gio.calorieplanner.ui.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,21 +17,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import home.gio.calorieplanner.App;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.grocerieslist.GroceriesListPresenter;
 import home.gio.calorieplanner.grocerieslist.IGroceriesListView;
+import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.models.Person;
 import home.gio.calorieplanner.shoppinglist.ShoppingAdapter;
-import home.gio.calorieplanner.ui.activities.MainActivity;
 
 public class GroceriesListFragment extends Fragment implements AdapterView.OnItemSelectedListener, IGroceriesListView, View.OnClickListener {
     private EditText protein, carbs, fat, calories;
@@ -39,16 +42,30 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     private List<String> namesList;
     private List<String> productList;
     private GroceriesListPresenter presenter;
-    private RecyclerView recyclerView;
-    //    private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Button addProduct;
-    private FirebaseRecyclerAdapter adapter;
-    private DatabaseReference databaseReference;
     private ShoppingAdapter shoppingAdapter;
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor editor;
     private int position;
+    @BindView(R.id.removeFrom)
+    public Button removeProduct;
+    @BindView(R.id.addProduct)
+    public Button addProduct;
+    @BindView(R.id.groceriesListRecyclerView)
+    public RecyclerView recyclerView;
+    @BindView(R.id.caloriesTextViewViewpager)
+    public TextView caloriesTextView;
+    @BindView(R.id.fatTextViewViewpager)
+    public TextView fatTextView;
+    @BindView(R.id.proteinTextViewViewpager)
+    public TextView proteinTextView;
+    @BindView(R.id.carbsTextViewViewpager)
+    public TextView carbsTextView;
+    public Double sumOfPrices = 0.0;
+    public Double sumOfFat = 0.0;
+    public Double sumOfProtein = 0.0;
+    public Double sumOfCarbs = 0.0;
+    public Double sumOfCalories = 0.0;
 
     public GroceriesListFragment() {
         // Required empty public constructor
@@ -58,29 +75,57 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         position = getArguments().getInt("positionOfViewpager", -1);
-        App app = (App) getContext().getApplicationContext();
-        databaseReference = app.getItemsReference();
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.groceriesListRecyclerView);
+        ButterKnife.bind(this, rootView);
+        sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         layoutManager = new LinearLayoutManager(getContext());
         presenter = new GroceriesListPresenter(this);
+        namesList = new ArrayList<>();
+        namesList.add("None");
         presenter.fillPersonsList(personList, getContext());
         presenter.fillProductsList(getActivity(), String.valueOf(position));
-        if (this.productList != null) {
-            shoppingAdapter = new ShoppingAdapter(productList);
-            recyclerView.setAdapter(shoppingAdapter);
-            shoppingAdapter.notifyDataSetChanged();
-        }
-        recyclerView.setLayoutManager(layoutManager);
         protein = (EditText) rootView.findViewById(R.id.proteinEditText);
         carbs = (EditText) rootView.findViewById(R.id.carbEditText);
         fat = (EditText) rootView.findViewById(R.id.fatEditText);
         calories = (EditText) rootView.findViewById(R.id.caloriesEditText);
-        addProduct = (Button) rootView.findViewById(R.id.addProduct);
+        if (this.productList != null) {
+            shoppingAdapter = new ShoppingAdapter(productList);
+            recyclerView.setAdapter(shoppingAdapter);
+            updateTextViews(shoppingAdapter.productList);
+        }
+        recyclerView.setLayoutManager(layoutManager);
+
         addProduct.setOnClickListener(this);
+        removeProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Integer> recyclerInts = new ArrayList<Integer>();
+                for (Iterator<Integer> k = shoppingAdapter.positionList.iterator(); k.hasNext(); ) {
+                    Integer next = k.next();
+                    recyclerInts.add(next);
+                    k.remove();
+                }
+                for (Integer ints = recyclerInts.size() - 1; ints >= 0; ints--) {
+                    productList.remove((int) recyclerInts.get(ints));
+                    shoppingAdapter.notifyItemRemoved(recyclerInts.get(ints));
+                }
+
+                Set<String> shoppingSet = sharedPrefs.getStringSet("shoppinglist", null);
+                List<String> shoppingList = new ArrayList<String>();
+                if (shoppingSet != null) {
+                    shoppingList.addAll(shoppingSet);
+                }
+                int tempIndex;
+                for (String product : shoppingAdapter.productList) {
+                    tempIndex = shoppingList.indexOf(product);
+                    if (tempIndex != -1)
+                        shoppingList.remove(tempIndex);
+                }
+                updateTextViews(shoppingAdapter.productList);
+                sharedPrefs.edit().putStringSet("shoppinglist", new HashSet<String>(shoppingList)).apply();
+            }
+        });
         spinner = (Spinner) rootView.findViewById(R.id.nameSpinner);
-        namesList = new ArrayList<>();
-        namesList.add("None");
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, namesList);
         spinner.setAdapter(nameAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -88,22 +133,77 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         return rootView;
     }
 
+    @Override
+    public void updateTextViews(List<String> productList) {
+        sumOfFat = 0.0;
+        sumOfProtein = 0.0;
+        sumOfCarbs = 0.0;
+        sumOfCalories = 0.0;
+        for (String product : productList) {
+            sumOfFat += Double.parseDouble(Main.getFat(product));
+            sumOfProtein += Double.parseDouble(Main.getProtein(product));
+            sumOfCarbs += Double.parseDouble(Main.getCarbs(product));
+            sumOfCalories += Double.parseDouble(Main.getMyCalories(product));
+        }
+        Drawable background = caloriesTextView.getBackground();
+        caloriesTextView.setText("კალორიები:" + String.valueOf(sumOfCalories));
+        fatTextView.setText("ცხიმები:" + String.valueOf(sumOfFat));
+        carbsTextView.setText("ნახშირწყლები:" + String.valueOf(sumOfCarbs));
+        proteinTextView.setText("ცილები:" + String.valueOf(sumOfProtein));
+        if (!this.calories.getText().toString().equals("")) {
+            if (checkIfExceededCalories(sumOfCalories))
+                caloriesTextView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_line));
+            else
+                caloriesTextView.setBackground(background);
+        }
+        if (!this.fat.getText().toString().equals("")) {
+            if (checkIfExceededFats(sumOfFat))
+                fatTextView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_line));
+            else
+                fatTextView.setBackground(background);
+        }
+        if (!this.carbs.getText().toString().equals("")) {
+            if (checkIfExceededCarbs(sumOfCarbs))
+                carbsTextView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_line));
+            else
+                carbsTextView.setBackground(background);
+        }
+        if (!this.protein.getText().toString().equals("")) {
+            if (checkIfExceededProteins(sumOfProtein))
+                proteinTextView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_line));
+            else
+                proteinTextView.setBackground(background);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (productList == null) {
-            productList = new ArrayList<>();
-        }
-        sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if (sharedPrefs.getStringSet("savedList" + String.valueOf(position), null) != null) {
-            this.productList.addAll(sharedPrefs.getStringSet("savedList" + String.valueOf(position), null));
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (productList != null) {
+            sharedPrefs.edit().putStringSet(String.valueOf(sharedPrefs.getInt("personRow", -1)) + String.valueOf(position), new HashSet<>(productList)).apply();
+        }
+
+    }
+
+    private boolean checkIfExceededCalories(Double calories) {
+        return calories > Double.parseDouble(this.calories.getText().toString());
+    }
+
+    private boolean checkIfExceededFats(Double fats) {
+        return fats > Double.parseDouble(this.fat.getText().toString());
+    }
+
+    private boolean checkIfExceededCarbs(Double carbs) {
+        return carbs > Double.parseDouble(this.carbs.getText().toString());
+    }
+
+    private boolean checkIfExceededProteins(Double proteins) {
+        return proteins > Double.parseDouble(this.protein.getText().toString());
     }
 
 
@@ -119,6 +219,9 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
             carbs.setText("");
             fat.setText("");
             calories.setText("");
+        }
+        if (productList!= null) {
+            updateTextViews(productList);
         }
     }
 

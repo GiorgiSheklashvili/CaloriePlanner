@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +27,7 @@ import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.shoppinglist.IShoppingListView;
 import home.gio.calorieplanner.shoppinglist.ShoppingAdapter;
+import home.gio.calorieplanner.shoppinglist.ShoppingListPresenter;
 
 
 public class ShoppingListFragment extends Fragment implements IShoppingListView {
@@ -69,14 +72,18 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    List<Integer> recyclerInts = new ArrayList<Integer>();
                     for (Iterator<Integer> k = adapter.positionList.iterator(); k.hasNext(); ) {
                         Integer next = k.next();
-                        recyclerView.removeViewAt(next);
-                        productList.remove((int) next);
+                        recyclerInts.add(next);
                         k.remove();
                     }
+
+                    for (Integer ints = recyclerInts.size() - 1; ints >= 0; ints--) {
+                        productList.remove((int) recyclerInts.get(ints));
+                        adapter.notifyItemRemoved(recyclerInts.get(ints));
+                    }
                     sumPrice.setText(getString(R.string.currency, sumOfPrices(productList)));
-                    adapter.notifyDataSetChanged();
                 }
             });
         }

@@ -225,6 +225,15 @@ public class Main implements IMainModel {
         matcher.find();
         return matcher.group();
     }
+    public static String getMyCalories(String details) {
+        int index = details.indexOf("კალორიები:");
+        if (index == -1)
+            return "0";
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(details.substring(index, index + 15));
+        matcher.find();
+        return matcher.group();
+    }
 
     private String getNutritionFacts(String details) {
         int index = details.indexOf("კვებითი ღირებულება");
@@ -234,4 +243,5 @@ public class Main implements IMainModel {
             return "0";
         return details.substring(index, details.length());
     }
+
 }

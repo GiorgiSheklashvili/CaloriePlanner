@@ -8,26 +8,34 @@ import android.widget.Checkable;
 import android.widget.CheckedTextView;
 
 import com.thoughtbot.expandablecheckrecyclerview.viewholders.CheckableChildViewHolder;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.main.Main;
 
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
-    private List<String> productList;
+    public List<String> productList;
     private OnItemClickedListener callback;
     public List<Integer> positionList = new ArrayList<>();
 
+
     interface OnItemClickedListener {
-        void OnItemClicked(int position);
+        void OnItemClicked(int position, boolean isChecked);
     }
 
     public ShoppingAdapter(List<String> productList) {
         this.productList = productList;
         callback = new OnItemClickedListener() {
             @Override
-            public void OnItemClicked(int position) {
-                positionList.add(position);
+            public void OnItemClicked(int position, boolean isChecked) {
+                if (isChecked)
+                    positionList.add(position);
+                else
+                    positionList.remove(position);
+                Collections.sort(positionList);
             }
         };
     }
@@ -42,11 +50,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     public void onBindViewHolder(ShoppingAdapter.ViewHolder holder, int position) {
         holder.bind(callback);
         holder.setCheckedTextView(productList.get(position));
-        holder.setCalories(Integer.parseInt(Main.getCalories(productList.get(position))));
-        holder.setCarbs(Integer.parseInt(Main.getCarbs(productList.get(position))));
-        holder.setCarbs(Integer.parseInt(Main.getProtein(productList.get(position))));
-        holder.setCarbs(Integer.parseInt(Main.getFat(productList.get(position))));
-        holder.setPrice(Main.getPrice(productList.get(position)));
+
     }
 
     @Override
@@ -56,11 +60,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     public static class ViewHolder extends CheckableChildViewHolder {
         private CheckedTextView checkedTextView;
-        private int protein;
-        private int carbs;
-        private int fat;
-        private int calories;
-        private String price;
+
         private OnItemClickedListener listener;
 
 
@@ -68,45 +68,6 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             this.checkedTextView.setText(text);
         }
 
-        public int getProtein() {
-            return protein;
-        }
-
-        public void setProtein(int protein) {
-            this.protein = protein;
-        }
-
-        public int getCarbs() {
-            return carbs;
-        }
-
-        public void setCarbs(int carbs) {
-            this.carbs = carbs;
-        }
-
-        public int getFat() {
-            return fat;
-        }
-
-        public void setFat(int fat) {
-            this.fat = fat;
-        }
-
-        public int getCalories() {
-            return calories;
-        }
-
-        public void setCalories(int calories) {
-            this.calories = calories;
-        }
-
-        public String getPrice() {
-            return price;
-        }
-
-        public void setPrice(String price) {
-            this.price = price;
-        }
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -122,7 +83,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     ((CheckedTextView) v).toggle();
                     int position = getAdapterPosition();
                     if (position >= 0) {
-                        listener.OnItemClicked(position);
+                        listener.OnItemClicked(position, ((CheckedTextView) v).isChecked());
                     }
                 }
             });
