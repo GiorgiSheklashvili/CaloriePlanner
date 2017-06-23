@@ -120,7 +120,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
                     editor = sharedPreferences.edit();
                     editor.putInt("personRow", holder.getAdapterPosition());
                     editor.apply();
-                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment,"GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
                 }
             }
         });

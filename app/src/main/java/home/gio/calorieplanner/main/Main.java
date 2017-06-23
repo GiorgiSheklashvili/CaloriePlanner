@@ -175,7 +175,7 @@ public class Main implements IMainModel {
     }
 
     public static String getFat(String details) {
-        int index = details.indexOf("ცხიმ");
+        int index = details.indexOf("ცხიმი");
         if (index == -1)
             return "0";
         Pattern pattern = Pattern.compile("\\d+");

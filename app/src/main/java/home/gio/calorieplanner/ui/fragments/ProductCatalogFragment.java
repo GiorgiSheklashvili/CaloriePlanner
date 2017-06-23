@@ -15,6 +15,7 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener;
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
@@ -26,6 +27,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.productcatalog.CatalogAdapter;
 import home.gio.calorieplanner.productcatalog.IProductCatalogView;
@@ -84,25 +86,30 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
         returnToViewpager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (productList != null) {
-                    Set<String> stringSet = new HashSet<>(productList);
-                    Set<String> exactViewPagerStringSet = new HashSet<>(productList);
+                if (productList.size() != 0) {
                     SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    if (sharedPreferences.getStringSet("shoppinglist", null) != null) {
-                        stringSet.addAll(sharedPreferences.getStringSet("shoppinglist", null));
+                    List<String> exactViewPagerProductList = new ArrayList<>(productList);
+                    List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
+                    if (numberListAfterRemove != null) {
+                        for (int i = 0; i < productList.size(); i++) {
+                            numberListAfterRemove.add(String.valueOf(1));
+                        }
+                        App.listToGson(getActivity(), numberListAfterRemove, "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
                     }
-
-                    if (sharedPreferences.getStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), null) != null) {
-                        exactViewPagerStringSet.addAll(sharedPreferences.getStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), null));
+                    if (App.listFromGson(getActivity(), "shoppinglist") != null) {
+                        productList.addAll(App.listFromGson(getActivity(), "shoppinglist"));
                     }
-                    editor.putStringSet("shoppinglist", stringSet);
-                    editor.putStringSet(sharedPreferences.getString("keyOfViewpagerKey", ""), exactViewPagerStringSet);
-                    editor.apply();
+                    if (App.listFromGson(getActivity(), sharedPreferences.getString("keyOfViewpagerKey", "")) != null) {
+                        exactViewPagerProductList.addAll(App.listFromGson(getActivity(), sharedPreferences.getString("keyOfViewpagerKey", "")));
+                    }
+                    App.listToGson(getActivity(), productList, "shoppinglist");
+                    App.listToGson(getActivity(), exactViewPagerProductList, sharedPreferences.getString("keyOfViewpagerKey", ""));
+                    GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
+                } else {
+                    Toast.makeText(getContext(), "აირჩიეთ პროდუქტები", Toast.LENGTH_SHORT).show();
                 }
-                GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+
             }
         });
         catalogAdapter.setChildClickListener(new OnCheckChildClickListener() {

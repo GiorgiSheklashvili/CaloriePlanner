@@ -5,7 +5,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.MenuItem;
 
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.ui.fragments.CalorieCalculatorFragment;
+import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
 import home.gio.calorieplanner.ui.fragments.MainFragment;
 import home.gio.calorieplanner.ui.fragments.PersonsListFragment;
 import home.gio.calorieplanner.ui.fragments.ShoppingListFragment;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_navigation);
 
         MainFragment mainFragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, mainFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, mainFragment, "Main").commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.shopping_icon:
                 Fragment fragment = new ShoppingListFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -68,14 +68,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            int count = getSupportFragmentManager().getBackStackEntryCount();
-            if (count != 0)
-                getSupportFragmentManager().popBackStack();
-            else {
-                finish();
+            Fragment mainFragment = getSupportFragmentManager().findFragmentByTag("Main");
+            if (getSupportFragmentManager().findFragmentByTag("PersonsList") != null || getSupportFragmentManager().findFragmentByTag("Calculator") != null || getSupportFragmentManager().findFragmentByTag("ShoppingList") != null || (getSupportFragmentManager().findFragmentByTag("GroceriesViewpager") != null && getSupportFragmentManager().findFragmentByTag("GroceriesViewpager").isVisible())) {
+                Fragment frag = getSupportFragmentManager().findFragmentByTag("PersonsList");
+                if (frag != null && frag.isVisible()) {
+                    while (mainFragment != null) {
+                        getSupportFragmentManager().popBackStackImmediate();
+                        if (mainFragment.isVisible()) {
+                            break;
+                        }
+                    }
+                }
+                frag = getSupportFragmentManager().findFragmentByTag("Calculator");
+                if (frag != null && frag.isVisible()) {
+                    while (mainFragment != null) {
+                        getSupportFragmentManager().popBackStackImmediate();
+                        if (mainFragment.isVisible()) {
+                            break;
+                        }
+                    }
+                }
+                frag = getSupportFragmentManager().findFragmentByTag("ShoppingList");
+                if (frag != null && frag.isVisible()) {
+                    while (mainFragment != null) {
+                        getSupportFragmentManager().popBackStackImmediate();
+                        if (mainFragment.isVisible()) {
+                            break;
+                        }
+                    }
+                }
+                frag = getSupportFragmentManager().findFragmentByTag("GroceriesViewpager");
+                if (frag != null && frag.isVisible()) {
+                    while (mainFragment != null) {
+                        getSupportFragmentManager().popBackStackImmediate();
+                        if (mainFragment.isVisible()) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                if (count != 0)
+                    getSupportFragmentManager().popBackStack();
+                else {
+                    finish();
+                }
             }
         }
     }
@@ -87,19 +127,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.main) {
             Fragment fragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "Main").commit();
         }
         if (id == R.id.nav_calculator) {
             Fragment fragment = new CalorieCalculatorFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "Calculator").addToBackStack(fragment.getClass().getName()).commit();
         }
         if (id == R.id.persons_list) {
             Fragment fragment = new PersonsListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "PersonsList").addToBackStack(fragment.getClass().getName()).commit();
         }
         if (id == R.id.shopping_list) {
             Fragment fragment = new ShoppingListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -23,18 +23,19 @@
             android:paddingTop="2dp" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="center"
             android:text="@string/calories" />
 
-        <EditText
-            android:id="@+id/caloriesEditText"
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/caloriesTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -117,11 +118,11 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/nutrition_facts_textViews"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="5"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/caloriesAndProteinLinear"

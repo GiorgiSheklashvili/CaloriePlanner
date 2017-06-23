@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.models.Person;
 
@@ -41,14 +42,37 @@ public class GroceriesList implements IGroceriesListModel {
     public List<String> fillProductsList(Activity activity, String position) {
         sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
         String key = String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
-        Set<String> stringSet = new HashSet<>();
+        List<String> products = new ArrayList<>();
+
         if (!key.equals("")) {
-            stringSet = sharedPrefs.getStringSet(key, null);
+            products = App.listFromGson(activity, key);
         }
-        if (stringSet != null) {
-            return new ArrayList<>(stringSet);
-        } else
+        if (products != null) {
+            return products;
+        } else {
             return null;
+        }
+    }
+
+    public ArrayList<Integer> fillNumberList(Activity activity, String position) {
+        sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
+        String key = "numberOf" + String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(key, "");
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
+        ArrayList<String> numbers = gson.fromJson(json, type);
+        ArrayList<Integer> numbersInteger = new ArrayList<>();
+        if (numbers != null) {
+            for (String num : numbers) {
+                numbersInteger.add(Integer.valueOf(num));
+            }
+        }
+        if (numbersInteger.size() == 0)
+            return new ArrayList<>();
+        else
+            return numbersInteger;
+
     }
 
 }

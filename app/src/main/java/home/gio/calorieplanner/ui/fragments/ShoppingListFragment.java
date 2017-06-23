@@ -1,34 +1,27 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.main.Main;
 import home.gio.calorieplanner.shoppinglist.IShoppingListView;
 import home.gio.calorieplanner.shoppinglist.ShoppingAdapter;
-import home.gio.calorieplanner.shoppinglist.ShoppingListPresenter;
-
 
 public class ShoppingListFragment extends Fragment implements IShoppingListView {
 
@@ -54,15 +47,11 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
         if (getArguments() != null) {
             productList = getArguments().getStringArrayList("productList");
         } else {
-            SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
-            Set<String> stringSet = sharedPreferences.getStringSet("shoppinglist", null);
-            if (stringSet != null) {
-                productList = new ArrayList<String>(stringSet);
-            }
+            productList = App.listFromGson(getActivity(), "shoppinglist");
         }
         if (productList != null) {
             recyclerView = (RecyclerView) rootView.findViewById(R.id.full_list);
-            adapter = new ShoppingAdapter(productList);
+            adapter = new ShoppingAdapter(productList, getActivity());
             recyclerView.setAdapter(adapter);
             layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
@@ -78,7 +67,6 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
                         recyclerInts.add(next);
                         k.remove();
                     }
-
                     for (Integer ints = recyclerInts.size() - 1; ints >= 0; ints--) {
                         productList.remove((int) recyclerInts.get(ints));
                         adapter.notifyItemRemoved(recyclerInts.get(ints));
@@ -102,11 +90,8 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
     public void onStop() {
         super.onStop();
         if (productList != null) {
-            Set<String> stringSet = new HashSet<>(productList);
-            SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putStringSet("shoppinglist", stringSet);
-            editor.apply();
+            App.listToGson(getActivity(), productList, "shoppinglist");
+
         }
     }
 }

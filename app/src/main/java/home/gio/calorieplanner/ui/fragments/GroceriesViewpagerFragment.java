@@ -24,10 +24,12 @@ public class GroceriesViewpagerFragment extends Fragment {
     int viewPagerPosition = 0;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    public static boolean isVisible;
 
     public GroceriesViewpagerFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -45,7 +47,6 @@ public class GroceriesViewpagerFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 viewPagerPosition = position;
-//                editor.putString("row", String.valueOf(sharedPreferences.getInt("personRow", -1)));
                 editor.putString("keyOfViewpagerKey", String.valueOf(sharedPreferences.getInt("personRow", -1)) + String.valueOf(viewPagerPosition));
                 editor.apply();
             }

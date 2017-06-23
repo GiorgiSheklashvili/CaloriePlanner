@@ -49,7 +49,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private View mLayout, rootView;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    //    private Set<String> personNamesSet = new LinkedHashSet<>(Arrays.asList(""));
     private List<String> listData=new ArrayList<>();
 
     public MainFragment() {
@@ -66,7 +65,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         presenter = new MainPresenter(this);
-//        presenter.parseGoodwillSakvebiProductebiHTML(getContext());
+//        presenter.parseGoodwillSakvebiProductebiHTML(getContext());    //parser
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         if (!sharedPreferences.getString("personNameList", "").equals("")) {
             try {
