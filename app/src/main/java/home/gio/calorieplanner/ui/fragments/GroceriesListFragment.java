@@ -46,7 +46,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     private List<Person> personList;
     private List<String> namesList;
     private List<String> productList;
-    private List<Integer> numbersList;
+//    private List<Integer> numbersList;
     private GroceriesListPresenter presenter;
     private RecyclerView.LayoutManager layoutManager;
     private GroceriesListAdapter groceriesListAdapter;
@@ -92,7 +92,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         namesList.add("None");
         presenter.fillPersonsList(personList, getContext());
         presenter.fillProductsList(getActivity(), String.valueOf(position));
-        presenter.fillNumbersList(getActivity(), String.valueOf(position));
+//        presenter.fillNumbersList(getActivity(), String.valueOf(position));
         proteinEditText = (EditText) rootView.findViewById(R.id.proteinEditText);
         carbsEditText = (EditText) rootView.findViewById(R.id.carbEditText);
         fatEditText = (EditText) rootView.findViewById(R.id.fatEditText);
@@ -101,7 +101,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         fatEditText.addTextChangedListener(fatTextWatcher);
         carbsEditText.addTextChangedListener(carbTextWatcher);
         if (this.productList != null && sharedPrefs.getInt("personRow", -1) != -1 && position != -1) {
-            groceriesListAdapter = new GroceriesListAdapter(productList, numbersList, getActivity(), sharedPrefs.getInt("personRow", -1) + String.valueOf(position));
+            groceriesListAdapter = new GroceriesListAdapter(productList, getActivity());
             recyclerView.setAdapter(groceriesListAdapter);
             updateTextViews(groceriesListAdapter.productList);
         }
@@ -220,11 +220,11 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         this.productList = productList;
 
     }
-
-    @Override
-    public void fillNumbersList(List<Integer> numbersList) {
-        this.numbersList = numbersList;
-    }
+//
+//    @Override
+//    public void fillNumbersList(List<Integer> numbersList) {
+//        this.numbersList = numbersList;
+//    }
 
 
     @Override
@@ -299,7 +299,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         public void onClick(View v) {
             if (groceriesListAdapter.positionList.size() != 0) {
                 List<Integer> recyclerInts = new ArrayList<Integer>();
-                List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPrefs.getInt("personRow", -1) + String.valueOf(position));
+//                List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPrefs.getInt("personRow", -1) + String.valueOf(position));
                 for (Iterator<Integer> k = groceriesListAdapter.positionList.iterator(); k.hasNext(); ) {
                     Integer next = k.next();
                     recyclerInts.add(next);
@@ -308,9 +308,9 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
                 for (Integer ints = recyclerInts.size() - 1; ints >= 0; ints--) {
                     productList.remove((int) recyclerInts.get(ints));
                     groceriesListAdapter.notifyItemRemoved(recyclerInts.get(ints));
-                    numberListAfterRemove.remove((int) recyclerInts.get(ints));
+//                    numberListAfterRemove.remove((int) recyclerInts.get(ints));
                 }
-                App.listToGson(getActivity(), numberListAfterRemove, "numberOf" + sharedPrefs.getInt("personRow", -1) + String.valueOf(position));
+//                App.listToGson(getActivity(), numberListAfterRemove, "numberOf" + sharedPrefs.getInt("personRow", -1) + String.valueOf(position));
                 List<String> shoppingList = App.listFromGson(getActivity(), "shoppinglist");
                 int tempIndex;
                 for (String product : groceriesListAdapter.productList) {

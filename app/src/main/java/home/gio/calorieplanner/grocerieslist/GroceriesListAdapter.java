@@ -29,24 +29,24 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
     public List<String> productList;
     private ViewHolderInterface callback;
     public List<Integer> positionList = new ArrayList<>();
-    private List<Integer> numberOfProductsList;
+//    private List<Integer> numberOfProductsList;
     private SharedPreferences.Editor editor;
 
     interface ViewHolderInterface {
         void OnItemClicked(int position, boolean isChecked);
 
-        void OnEditTextChanged(int position, int number);
+
     }
 
-    public GroceriesListAdapter(List<String> productList, List<Integer> numberOfProductsList1, Activity activity, final String rowAndDay) {
+    public GroceriesListAdapter(List<String> productList,  Activity activity) {
         SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        this.numberOfProductsList = numberOfProductsList1;
-        if (numberOfProductsList1.size() == 0) {
-            for (int i = 0; i < productList.size(); i++) {
-                numberOfProductsList.add(1);
-            }
-        }
+//        this.numberOfProductsList = numberOfProductsList1;
+//        if (numberOfProductsList1.size() == 0) {
+//            for (int i = 0; i < productList.size(); i++) {
+//                numberOfProductsList.add(1);
+//            }
+//        }
 //        else {
 //            for (int i = 0; i < productList.size(); i++) {
 //                numberOfProductsList.add(1);
@@ -59,21 +59,10 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
                 if (isChecked)
                     positionList.add(position);
                 else
-                    positionList.remove(position);
+                    positionList.remove((Integer) position);
                 Collections.sort(positionList);
             }
 
-            @Override
-            public void OnEditTextChanged(int position, int number) {
-                if (numberOfProductsList.size() > position) {
-                    numberOfProductsList.set(position, number);
-                    Gson gson = new Gson();
-                    String toJson = gson.toJson(numberOfProductsList);
-                    editor.putString("numberOf" + rowAndDay, toJson);
-                    editor.apply();
-                }
-
-            }
         };
     }
 
@@ -88,7 +77,6 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
     public void onBindViewHolder(GroceriesListAdapter.ViewHolder holder, int position) {
         holder.bind(callback);
         holder.setCheckedTextView(productList.get(position));
-        holder.numberOfProductEditText.setText(String.valueOf(numberOfProductsList.get(position)));
     }
 
     @Override
@@ -97,7 +85,6 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
     }
 
     public static class ViewHolder extends CheckableChildViewHolder {
-        private EditText numberOfProductEditText;
         private CheckedTextView checkedTextView;
         private ViewHolderInterface listener;
 
@@ -108,7 +95,6 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
         public ViewHolder(View itemView) {
             super(itemView);
             checkedTextView = (CheckedTextView) itemView.findViewById(R.id.groceries_list_item_CheckedTextView);
-            numberOfProductEditText = (EditText) itemView.findViewById(R.id.number_of_product_editText);
         }
 
         public void bind(final ViewHolderInterface callback) {
@@ -123,22 +109,7 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
                     }
                 }
             });
-            numberOfProductEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (s.toString().length() != 0) {
-                        listener.OnEditTextChanged(getAdapterPosition(), Integer.parseInt(s.toString()));
-                    }
-                }
-            });
         }
 
         @Override

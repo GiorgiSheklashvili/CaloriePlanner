@@ -54,25 +54,25 @@ public class GroceriesList implements IGroceriesListModel {
         }
     }
 
-    public ArrayList<Integer> fillNumberList(Activity activity, String position) {
-        sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
-        String key = "numberOf" + String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(key, "");
-        Type type = new TypeToken<ArrayList<String>>() {
-        }.getType();
-        ArrayList<String> numbers = gson.fromJson(json, type);
-        ArrayList<Integer> numbersInteger = new ArrayList<>();
-        if (numbers != null) {
-            for (String num : numbers) {
-                numbersInteger.add(Integer.valueOf(num));
-            }
-        }
-        if (numbersInteger.size() == 0)
-            return new ArrayList<>();
-        else
-            return numbersInteger;
-
-    }
+//    public ArrayList<Integer> fillNumberList(Activity activity, String position) {
+//        sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
+//        String key = "numberOf" + String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
+//        Gson gson = new Gson();
+//        String json = sharedPrefs.getString(key, "");
+//        Type type = new TypeToken<ArrayList<String>>() {
+//        }.getType();
+//        ArrayList<String> numbers = gson.fromJson(json, type);
+//        ArrayList<Integer> numbersInteger = new ArrayList<>();
+//        if (numbers != null) {
+//            for (String num : numbers) {
+//                numbersInteger.add(Integer.valueOf(num));
+//            }
+//        }
+//        if (numbersInteger.size() == 0)
+//            return new ArrayList<>();
+//        else
+//            return numbersInteger;
+//
+//    }
 
 }

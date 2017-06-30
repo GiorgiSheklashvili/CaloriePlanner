@@ -15,5 +15,5 @@ public interface IGroceriesListModel {
 
     List<String> fillProductsList(Activity activity, String position);
 
-    ArrayList<Integer> fillNumberList(Activity activity, String position);
+//    ArrayList<Integer> fillNumberList(Activity activity, String position);
 }

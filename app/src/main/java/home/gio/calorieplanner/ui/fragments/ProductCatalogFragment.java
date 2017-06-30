@@ -54,7 +54,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
     @BindView(R.id.go_to_shopping_product_catalog)
     public Button returnToViewpager;
     private List<String> productList;
-
+    private List<String> tempProductList=new ArrayList<>();
 
     public ProductCatalogFragment() {
 
@@ -89,20 +89,25 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
                 if (productList.size() != 0) {
                     SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
                     List<String> exactViewPagerProductList = new ArrayList<>(productList);
-                    List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
-                    if (numberListAfterRemove != null) {
-                        for (int i = 0; i < productList.size(); i++) {
-                            numberListAfterRemove.add(String.valueOf(1));
-                        }
-                        App.listToGson(getActivity(), numberListAfterRemove, "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
-                    }
+//                    List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
+//                    if (numberListAfterRemove != null) {
+//                        for (int i = 0; i < productList.size(); i++) {
+//                            numberListAfterRemove.add(String.valueOf(1));
+//                        }
+//                        App.listToGson(getActivity(), numberListAfterRemove, "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
+//                    }
                     if (App.listFromGson(getActivity(), "shoppinglist") != null) {
-                        productList.addAll(App.listFromGson(getActivity(), "shoppinglist"));
+                        tempProductList = App.listFromGson(getActivity(), "shoppinglist");
+                        tempProductList.addAll(productList);
                     }
                     if (App.listFromGson(getActivity(), sharedPreferences.getString("keyOfViewpagerKey", "")) != null) {
                         exactViewPagerProductList.addAll(App.listFromGson(getActivity(), sharedPreferences.getString("keyOfViewpagerKey", "")));
                     }
-                    App.listToGson(getActivity(), productList, "shoppinglist");
+                    if (tempProductList.size() != 0) {
+                        App.listToGson(getActivity(), tempProductList, "shoppinglist");
+                    } else {
+                        App.listToGson(getActivity(), productList, "shoppinglist");
+                    }
                     App.listToGson(getActivity(), exactViewPagerProductList, sharedPreferences.getString("keyOfViewpagerKey", ""));
                     GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
@@ -116,7 +121,12 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
             @Override
             public void onCheckChildCLick(View v, boolean checked, CheckedExpandableGroup group, int childIndex) {
                 CheckedTextView checkedTextView = (CheckedTextView) v.findViewById(R.id.menu_item_CheckedTextView);
-                productList.add(checkedTextView.getText().toString());
+                if (checked) {
+                    productList.add(checkedTextView.getText().toString());
+                } else {
+                    productList.remove(checkedTextView.getText().toString());
+                }
+
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {

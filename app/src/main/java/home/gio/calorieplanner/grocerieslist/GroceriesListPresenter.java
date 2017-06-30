@@ -35,10 +35,10 @@ public class GroceriesListPresenter implements IGroceriesListPresenter {
         getView().fillProductList(model.fillProductsList(activity, position));
     }
 
-    @Override
-    public void fillNumbersList(Activity activity, String position) {
-        getView().fillNumbersList(model.fillNumberList(activity, position));
-    }
+//    @Override
+//    public void fillNumbersList(Activity activity, String position) {
+//        getView().fillNumbersList(model.fillNumberList(activity, position));
+//    }
 
 
 }

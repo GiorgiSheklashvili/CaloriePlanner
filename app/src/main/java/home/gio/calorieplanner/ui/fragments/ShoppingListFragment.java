@@ -44,19 +44,15 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shopping_list, container, false);
         ButterKnife.bind(this, rootView);
-        if (getArguments() != null) {
-            productList = getArguments().getStringArrayList("productList");
-        } else {
-            productList = App.listFromGson(getActivity(), "shoppinglist");
-        }
+        productList = App.listFromGson(getActivity(), "shoppinglist");
         if (productList != null) {
             recyclerView = (RecyclerView) rootView.findViewById(R.id.full_list);
             adapter = new ShoppingAdapter(productList, getActivity());
             recyclerView.setAdapter(adapter);
             layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
-            if (sumOfPrices(productList) != null) {
-                sumPrice.setText(getString(R.string.currency, sumOfPrices(productList)));
+            if (sumOfPrices(adapter.productList, adapter.numbersList) != null) {
+                sumPrice.setText(getString(R.string.currency, sumOfPrices(adapter.productList, adapter.numbersList)));
             }
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,20 +64,21 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
                         k.remove();
                     }
                     for (Integer ints = recyclerInts.size() - 1; ints >= 0; ints--) {
-                        productList.remove((int) recyclerInts.get(ints));
+                        adapter.productList.remove((int) recyclerInts.get(ints));
+                        adapter.numbersList.remove((int) recyclerInts.get(ints));
                         adapter.notifyItemRemoved(recyclerInts.get(ints));
                     }
-                    sumPrice.setText(getString(R.string.currency, sumOfPrices(productList)));
+                    sumPrice.setText(getString(R.string.currency, sumOfPrices(adapter.productList, adapter.numbersList)));
                 }
             });
         }
         return rootView;
     }
 
-    public String sumOfPrices(List<String> details) {
+    public String sumOfPrices(List<String> details, List<String> numbers) {
         Double sum = 0.0;
-        for (String detail : details) {
-            sum += Double.parseDouble(Main.getPrice(detail));
+        for (int i = 0; i < details.size(); i++) {
+            sum += Double.parseDouble(numbers.get(i)) * Double.parseDouble(Main.getPrice(details.get(i)));
         }
         return sum.toString();
     }
@@ -89,9 +86,9 @@ public class ShoppingListFragment extends Fragment implements IShoppingListView 
     @Override
     public void onStop() {
         super.onStop();
-        if (productList != null) {
-            App.listToGson(getActivity(), productList, "shoppinglist");
-
+        if (adapter.productList != null) {
+            App.listToGson(getActivity(), adapter.productList, "shoppinglist");
+            App.listToGson(getActivity(), adapter.numbersList, "numbersOfShoppingList");
         }
     }
 }

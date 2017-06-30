@@ -4,16 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.CheckedTextView;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.thoughtbot.expandablecheckrecyclerview.viewholders.CheckableChildViewHolder;
@@ -22,31 +18,80 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
-import home.gio.calorieplanner.main.Main;
 
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
     public List<String> productList;
-    public List<String> numberedProductList=new ArrayList<>();
     private ViewHolderInterface callback;
     public List<Integer> positionList = new ArrayList<>();
-    private List<Integer> numbersList = new ArrayList<>();
-    private SharedPreferences.Editor editor;
+    public List<String> numbersList = new ArrayList<>();
+    private int tempIndex;
+    int occurrence;
 
     interface ViewHolderInterface {
         void OnItemClicked(int position, boolean isChecked);
     }
 
     public ShoppingAdapter(List<String> productList, Activity activity) {
-        SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        this.productList = productList;
-        for (int i = 0; i < productList.size(); i++) {
-            int occurrence = Collections.frequency(productList, productList.get(i));
-            numbersList.add(occurrence);
-            numberedProductList.add(productList.get(i));
-            productList.removeAll(Collections.singleton(productList.get(i)));
+        this.productList = new ArrayList<>(productList);
+        if (App.listFromGson(activity, "numbersOfShoppingList") != null && App.listFromGson(activity, "numbersOfShoppingList").size() != 0) {
+            numbersList.addAll(App.listFromGson(activity, "numbersOfShoppingList"));
         }
+        for (int i = 0; i < this.productList.size(); i++) {
+            occurrence = Collections.frequency(productList, productList.get(i));
+            if (numbersList.size() < this.productList.size() && i >= numbersList.size()) {
+                boolean containedBefore = false;
+                for (int c = 0; c < numbersList.size(); c++) {
+                    if (this.productList.get(c).equals(this.productList.get(i))) {
+                        containedBefore = true;
+                    }
+                }
+                if (!containedBefore) {// When added products are all new
+                    numbersList.add(String.valueOf(occurrence));
+                    int tempOccurrence = occurrence - 1;
+                    while (tempOccurrence != 0) {
+                        this.productList.remove(this.productList.get(i));
+                        tempOccurrence--;
+                    }
+                }
+            }
+            if (i > numbersList.size()) {
+                boolean tempNewAddedProductsSameOrNot = false;
+                for (int h = i + 1; h < this.productList.size(); h++) {
+                    if (this.productList.get(h).equals(this.productList.get(i))) {
+                        tempNewAddedProductsSameOrNot = true;
+                    }
+                }
+                if (!tempNewAddedProductsSameOrNot) {//Old products did not contain new product //rac daemata imis nairebi ar iyo aqamde
+                    numbersList.add(String.valueOf(occurrence));
+                    int tempOccurrence = occurrence - 1;
+                    while (tempOccurrence != 0) {
+                        this.productList.remove(this.productList.get(i));
+                        tempOccurrence--;
+                    }
+                }
+            }
+
+            if (occurrence > 1) {
+                for (int k = i + 1; k < this.productList.size(); k++) {
+                    if (this.productList.get(k).equals(this.productList.get(i))) {
+                        tempIndex = k;
+                        break;
+                    }
+                }
+                for (int j = this.productList.size() - 1; j >= tempIndex; j--) {
+                    if (this.productList.get(j).equals(this.productList.get(i)) && i != j) {
+                        this.productList.remove(j);
+                        int oldNumber = Integer.valueOf(numbersList.get(i));
+                        oldNumber++;
+                        numbersList.set(i, String.valueOf(oldNumber));
+                    }
+                }
+            }
+        }
+        App.listToGson(activity, this.productList, "shoppinglist");
+        App.listToGson(activity, this.numbersList, "numbersOfShoppingList");
         callback = new ViewHolderInterface() {
             @Override
             public void OnItemClicked(int position, boolean isChecked) {
@@ -70,13 +115,13 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     @Override
     public void onBindViewHolder(ShoppingAdapter.ViewHolder holder, int position) {
         holder.bind(callback);
-        holder.setCheckedTextView(numberedProductList.get(position));
-        holder.shoppingTextView.setText(String.valueOf(numbersList.get(position)));
+        holder.setCheckedTextView(productList.get(position));
+        holder.shoppingTextView.setText(numbersList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return numberedProductList.size();
+        return productList.size();
     }
 
     public static class ViewHolder extends CheckableChildViewHolder {
