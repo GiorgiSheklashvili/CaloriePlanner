@@ -1,6 +1,7 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
@@ -54,7 +56,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
     @BindView(R.id.go_to_shopping_product_catalog)
     public Button returnToViewpager;
     private List<String> productList;
-    private List<String> tempProductList=new ArrayList<>();
+    private List<String> tempProductList = new ArrayList<>();
 
     public ProductCatalogFragment() {
 
@@ -63,13 +65,15 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         View rootView = inflater.inflate(R.layout.fragment_product_catalog, container, false);
         ButterKnife.bind(this, rootView);
         productList = new ArrayList<>();
         presenter = new ProductCatalogPresenter(this);
         if (!getArguments().getString("searchInList", "").equals("")) {
             searchLinear.setVisibility(View.VISIBLE);
-            filterLinear.setVisibility(View.VISIBLE);
+//            filterLinear.setVisibility(View.VISIBLE);
             catalogAdapter = new CatalogAdapter(presenter.searchedResults(getArguments().getString("searchInList")));
         }
         if (getArguments().getStringArrayList("catalogList") != null) {
@@ -87,7 +91,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
             @Override
             public void onClick(View v) {
                 if (productList.size() != 0) {
-                    SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key),getContext().MODE_PRIVATE);
                     List<String> exactViewPagerProductList = new ArrayList<>(productList);
 //                    List<String> numberListAfterRemove = App.listFromGson(getActivity(), "numberOf" + sharedPreferences.getString("keyOfViewpagerKey", ""));
 //                    if (numberListAfterRemove != null) {
@@ -110,7 +114,7 @@ public class ProductCatalogFragment extends Fragment implements IProductCatalogV
                     }
                     App.listToGson(getActivity(), exactViewPagerProductList, sharedPreferences.getString("keyOfViewpagerKey", ""));
                     GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
                 } else {
                     Toast.makeText(getContext(), "აირჩიეთ პროდუქტები", Toast.LENGTH_SHORT).show();
                 }

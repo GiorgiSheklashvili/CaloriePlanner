@@ -96,7 +96,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
                     Bundle args = new Bundle();
                     args.putStringArrayList("catalogList", (ArrayList<String>) subMenuList);
                     catalog.setArguments(args);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit).replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
                 } else {
                     Toast.makeText(getContext(), "აირჩიეთ კატეგორიები", Toast.LENGTH_SHORT).show();
                 }
@@ -109,7 +109,7 @@ public class SubMenuAndFilterFragment extends Fragment implements ISubMenuAndFil
                 Bundle args = new Bundle();
                 args.putString("searchInList", searchEditText.getText().toString());
                 catalog.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit).replace(R.id.fragment_main_container, catalog).addToBackStack(null).commit();
             }
         });
 

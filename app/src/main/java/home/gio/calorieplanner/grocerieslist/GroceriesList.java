@@ -40,7 +40,7 @@ public class GroceriesList implements IGroceriesListModel {
 
     @Override
     public List<String> fillProductsList(Activity activity, String position) {
-        sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE);
+        sharedPrefs = activity.getSharedPreferences(activity.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         String key = String.valueOf(sharedPrefs.getInt("personRow", -1)) + position;
         List<String> products = new ArrayList<>();
 

@@ -16,7 +16,6 @@ import android.view.MenuItem;
 
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.ui.fragments.CalorieCalculatorFragment;
-import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
 import home.gio.calorieplanner.ui.fragments.MainFragment;
 import home.gio.calorieplanner.ui.fragments.PersonsListFragment;
 import home.gio.calorieplanner.ui.fragments.ShoppingListFragment;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.shopping_icon:
                 Fragment fragment = new ShoppingListFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -127,19 +126,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.main) {
             Fragment fragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "Main").commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "Main").commit();
         }
         if (id == R.id.nav_calculator) {
             Fragment fragment = new CalorieCalculatorFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "Calculator").addToBackStack(fragment.getClass().getName()).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "Calculator").addToBackStack(fragment.getClass().getName()).commit();
         }
         if (id == R.id.persons_list) {
             Fragment fragment = new PersonsListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "PersonsList").addToBackStack(fragment.getClass().getName()).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "PersonsList").addToBackStack(fragment.getClass().getName()).commit();
         }
         if (id == R.id.shopping_list) {
             Fragment fragment = new ShoppingListFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "ShoppingList").addToBackStack(fragment.getClass().getName()).commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

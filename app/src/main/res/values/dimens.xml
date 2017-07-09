@@ -5,4 +5,77 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    //calculated_calories_custom_row
+    <dimen name="height_of_linear">25dp</dimen>
+    //fragment_calorie_calculator
+    <dimen name="free_view">30dp</dimen>
+    <dimen name="erteuli_height">40dp</dimen>
+    <dimen name="weight_height">40dp</dimen>
+    <dimen name="height_height">40dp</dimen>
+    <dimen name="age_height">40dp</dimen>
+    <dimen name="gender_height">40dp</dimen>
+    <dimen name="lifestyle_height">40dp</dimen>
+    <dimen name="goal_height">40dp</dimen>
+    <dimen name="nutrition_facts_layout_margin">5dp</dimen>
+    <dimen name="calories_height">40dp</dimen>
+    <dimen name="protein_height">40dp</dimen>
+    <dimen name="fat_height">40dp</dimen>
+    <dimen name="carbohydrates_height">40dp</dimen>
+    <dimen name="name_height">40dp</dimen>
+    //fragment_groceries_list
+    <dimen name="spinner_bottom_padding">2dp</dimen>
+    <dimen name="spinner_left_padding">40dp</dimen>
+    <dimen name="spinner_right_padding">40dp</dimen>
+    <dimen name="spinner_top_padding">2dp</dimen>
+    <dimen name="calorie_margin_top">10dp</dimen>
+    <dimen name="calories_textview_margin_top">10dp</dimen>
+    <dimen name="recycler_view_height">275dp</dimen>
+    <dimen name="remove_button_linear_height">65dp</dimen>
+    <dimen name="calories_and_protein_linear_height">30dp</dimen>
+    <dimen name="calories_textView_width">140dp</dimen>
+    <dimen name="protein_textview_width">140dp</dimen>
+    <dimen name="carbs_and_fat_linear_height">35dp</dimen>
+    <dimen name="carbs_textView_width">140dp</dimen>
+    <dimen name="fat_textView_width">140dp</dimen>
+    <dimen name="remove_from_height">65dp</dimen>
+    //fragment_groceries_viewpager
+    <dimen name="black_line_height">28dp</dimen>
+    //fragment_person_list
+    <dimen name="title_linear_height">25dp</dimen>
+    //fragment_product_catalog
+    <dimen name="search_linear_height">40dp</dimen>
+    <dimen name="search_imageView_margin_end">5dp</dimen>
+    <dimen name="search_imageView_margin_right">5dp</dimen>
+    <dimen name="filter_linear_height">35dp</dimen>
+    <dimen name="product_catalog_recycler_height">415dp</dimen>
+    <dimen name="buttons_linear_height">70dp</dimen>
+    //fragment_shopping_list
+    <dimen name="full_list_recycler_height">435dp</dimen>
+    <dimen name="last_textViews_linear_height">60dp</dimen>
+    <dimen name="price_textView_margin_left">10dp</dimen>
+    <dimen name="price_textView_margin_start">10dp</dimen>
+    <dimen name="clear_button_margin_end">10dp</dimen>
+    <dimen name="clear_button_margin_right">10dp</dimen>
+    //fragment_submenu_and_filter
+    <dimen name="search_image_margin_end">5dp</dimen>
+    <dimen name="search_image_margin_right">5dp</dimen>
+    <dimen name="empty_view_height">20dp</dimen>
+    //groceries_list_custom_row
+    <dimen name="groceries_list_item_margin_bottom">7dp</dimen>
+    <dimen name="groceries_list_item_margin_end">16dp</dimen>
+    <dimen name="groceries_list_item_margin_left">72dp</dimen>
+    <dimen name="groceries_list_item_margin_right">16dp</dimen>
+    <dimen name="groceries_list_item_margin_start">72dp</dimen>
+    //menu_row_item
+    <dimen name="menu_row_margin_bottom">7dp</dimen>
+    //menu_row_item_checkable
+    <dimen name="menu_item_margin_bottom">7dp</dimen>
+    <dimen name="menu_item_margin_end">16dp</dimen>
+    <dimen name="menu_item_margin_left">72dp</dimen>
+    <dimen name="menu_item_margin_right">16dp</dimen>
+    <dimen name="menu_item_margin_start">72dp</dimen>
+    //row_item
+    <dimen name="row_item_height">50dp</dimen>
+
 </resources>

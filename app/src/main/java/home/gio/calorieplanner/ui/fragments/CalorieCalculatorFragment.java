@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.calculator.ICalorieCalculatorView;
 import home.gio.calorieplanner.events.CalculatorEvent;
@@ -70,23 +71,23 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
         weight = (EditText) rootView.findViewById(R.id.weightEditText);
         height = (EditText) rootView.findViewById(R.id.heightEditText);
         age = (EditText) rootView.findViewById(R.id.ageEditText);
-        items = new String[]{"Metric system", "Imperial system"};
+        items = new String[]{"მეტრული სისტემა", "იმპერიული სისტემა"};
         spinner = (Spinner) rootView.findViewById(R.id.metricsSpinner);
         spinner.setOnItemSelectedListener(unitSpinnerListener);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        items = new String[]{"Male", "Female"};
+        items = new String[]{"მამრობითი", "მდედრობითი"};
         spinner = (Spinner) rootView.findViewById(R.id.sex);
         spinner.setOnItemSelectedListener(sexSpinnerListener);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
-        items = new String[]{"Lightly active(sports 1-3 days/wk)", "Moderately active(sports 3-5 days/wk)", "Very active(sports 6-7 days/wk)"};
+        items = new String[]{"ნაკლებად აქტიური(სპორტი 1-3 დღე/კვირაში)", "საშუალოდ აქტიური (სპორტი 3-5 დღე/კვირაში)", "ძალიან აქტიური(სპორტი 6-7 დღე/კვირაში)"};
         spinner = (Spinner) rootView.findViewById(R.id.lifestyle);
         spinner.setOnItemSelectedListener(activitySpinnerListener);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
-        items = new String[]{"Maintain weight", "Lose weight", "Gain weight"};
+        items = new String[]{"წონის შენარჩუნება", "წონის დაკლება", "წონის მომატება"};
         spinner = (Spinner) rootView.findViewById(R.id.goal);
         spinner.setOnItemSelectedListener(goalSpinnerListener);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
@@ -181,17 +182,20 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
     View.OnClickListener saveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Person person = new Person(name.getText().toString(), Integer.parseInt(caloriesTextView.getText().toString()), Integer.parseInt(proteinTextView.getText().toString()), Integer.parseInt(fatTextView.getText().toString()), Integer.parseInt(carbTextView.getText().toString()));
-            personsList.add(person);
-            Context context = getActivity();
-            SharedPreferences sharedPrefs = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(personsList);
-            editor.putString("newData", json);
-            editor.commit();
-            Toast.makeText(context, name.getText().toString() + " saved in persons list", Toast.LENGTH_SHORT).show();
-
+            if (name.getText().toString().length() != 0) {
+                Person person = new Person(name.getText().toString(), Integer.parseInt(caloriesTextView.getText().toString()), Integer.parseInt(proteinTextView.getText().toString()), Integer.parseInt(fatTextView.getText().toString()), Integer.parseInt(carbTextView.getText().toString()));
+                personsList.add(person);
+                Context context = getActivity();
+                SharedPreferences sharedPrefs = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(personsList);
+                editor.putString("newData", json);
+                editor.commit();
+                Toast.makeText(context, name.getText().toString() + " saved in persons list", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "შეიყვანეთ სახელი", Toast.LENGTH_SHORT).show();
+            }
         }
     };
     View.OnClickListener calculateListener = new View.OnClickListener() {
@@ -292,12 +296,12 @@ public class CalorieCalculatorFragment extends Fragment implements ICalorieCalcu
                     height.setText(String.valueOf(mPresenter.convertTofeetInches(String.valueOf(height.getText().toString()))));
                 else {
                     height.setText("");
-                    height.setHint("inches");
+                    height.setHint("დიუიმი");
                 }
                 if (weight.getText().toString().length() != 0) {
                     weight.setText(String.valueOf((int) Math.round(Integer.parseInt(weight.getText().toString()) * 2.2)));
                 } else {
-                    weight.setHint("lbs");
+                    weight.setHint("ფუნტი");
                     weight.setText("");
                 }
                 unit = false;

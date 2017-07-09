@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/search_linear_layout_in_catalog"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/search_linear_height"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -31,8 +31,8 @@
             android:id="@+id/search_in_product_catalog"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="@dimen/search_imageView_margin_end"
+            android:layout_marginRight="@dimen/search_imageView_margin_right"
             android:layout_weight="1"
             android:src="@drawable/search" />
     </LinearLayout>
@@ -40,10 +40,10 @@
     <LinearLayout
         android:id="@+id/filter_linear_layout_in_catalog"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="@dimen/filter_linear_height"
         android:layout_below="@+id/search_linear_layout_in_catalog"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="invisible"
         >
 
         <TextView
@@ -77,13 +77,13 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/product_catalog_recycler"
             android:layout_width="match_parent"
-            android:layout_height="375dp" />
+            android:layout_height="@dimen/product_catalog_recycler_height" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="@dimen/buttons_linear_height"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         >

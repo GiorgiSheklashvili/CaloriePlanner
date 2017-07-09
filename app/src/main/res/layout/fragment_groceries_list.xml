@@ -17,13 +17,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_weight="4"
-            android:paddingBottom="2dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingTop="2dp" />
+            android:paddingBottom="@dimen/spinner_bottom_padding"
+            android:paddingLeft="@dimen/spinner_left_padding"
+            android:paddingRight="@dimen/spinner_right_padding"
+            android:paddingTop="@dimen/spinner_top_padding" />
 
         <TextView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/calorie_margin_top"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -31,7 +31,7 @@
             android:text="@string/calories" />
 
         <TextView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/calories_textview_margin_top"
             android:id="@+id/caloriesTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -107,13 +107,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/groceriesListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="@dimen/recycler_view_height"
         android:layout_below="@+id/add_product_linear" />
 
     <LinearLayout
         android:id="@+id/remove_button_linear"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="@dimen/remove_button_linear_height"
         android:layout_below="@+id/groceriesListRecyclerView"
         android:orientation="horizontal">
 
@@ -127,32 +127,32 @@
             <LinearLayout
                 android:id="@+id/caloriesAndProteinLinear"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp">
+                android:layout_height="@dimen/calories_and_protein_linear_height">
 
                 <TextView
                     android:id="@+id/caloriesTextViewViewpager"
-                    android:layout_width="140dp"
+                    android:layout_width="@dimen/calories_textView_width"
                     android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/proteinTextViewViewpager"
-                    android:layout_width="140dp"
+                    android:layout_width="@dimen/protein_textview_width"
                     android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/carbsAndFatLinear"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp">
+                android:layout_height="@dimen/carbs_and_fat_linear_height">
 
                 <TextView
                     android:id="@+id/carbsTextViewViewpager"
-                    android:layout_width="140dp"
+                    android:layout_width="@dimen/carbs_textView_width"
                     android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/fatTextViewViewpager"
-                    android:layout_width="140dp"
+                    android:layout_width="@dimen/fat_textView_width"
                     android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
@@ -160,7 +160,7 @@
         <Button
             android:id="@+id/removeFrom"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="@dimen/remove_from_height"
             android:layout_weight="2"
             android:text="@string/remove" />
     </LinearLayout>

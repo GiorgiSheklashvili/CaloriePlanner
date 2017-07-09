@@ -31,6 +31,8 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void loadDataFromDatabase(Context context) {
         model.loadDataFromDatabase(context);
+
+
     }
 
 }

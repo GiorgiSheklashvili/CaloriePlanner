@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -24,8 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.ui.fragments.GroceriesViewpagerFragment;
+import home.gio.calorieplanner.ui.fragments.MainFragment;
 
 public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHolder> {
     private Context context;
@@ -44,7 +47,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         drawable = holder.nameEditText.getBackground();
-        sharedPreferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = ((Activity) context).getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         return new ViewHolder(view);
     }
 
@@ -112,15 +115,19 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         holder.addProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.nameEditText.getText().length() == 0) {
-                    holder.nameEditText.setBackground(ContextCompat.getDrawable(context, R.drawable.red_line));
-                    Toast.makeText(context, "შეიყვანეთ სახელი", Toast.LENGTH_SHORT).show();
+                if (sharedPreferences.getBoolean("filesRead", false)) {
+                    if (holder.nameEditText.getText().length() == 0) {
+                        holder.nameEditText.setBackground(ContextCompat.getDrawable(context, R.drawable.red_line));
+                        Toast.makeText(context, "შეიყვანეთ სახელი", Toast.LENGTH_SHORT).show();
+                    } else {
+                        GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
+                        editor = sharedPreferences.edit();
+                        editor.putInt("personRow", holder.getAdapterPosition());
+                        editor.apply();
+                        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit).replace(R.id.fragment_main_container, fragment, "GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
+                    }
                 } else {
-                    GroceriesViewpagerFragment fragment = new GroceriesViewpagerFragment();
-                    editor = sharedPreferences.edit();
-                    editor.putInt("personRow", holder.getAdapterPosition());
-                    editor.apply();
-                    ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, fragment,"GroceriesViewpager").addToBackStack(fragment.getClass().getName()).commit();
+                    Toast.makeText(context, "ფაილები ჯერ არ არის ჩატვირთული", Toast.LENGTH_SHORT).show();
                 }
             }
         });

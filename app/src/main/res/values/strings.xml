@@ -4,30 +4,30 @@
     <string name="days">For how many days?</string>
     <string name="market">Choose market</string>
     <string name="app_name">CaloriePlanner</string>
-    <string name="next">Next</string>
-    <string name="day1">Day I</string>
-    <string name="day2">Day II</string>
-    <string name="day3">Day III</string>
+    <string name="next">შემდეგ</string>
+    <string name="day1">დღე I</string>
+    <string name="day2">დღე II</string>
+    <string name="day3">დღე III</string>
     <string name="plus">adding new tabs</string>
-    <string name="protein">Protein</string>
-    <string name="carb">Carbohydrates</string>
-    <string name="fat">Fat</string>
-    <string name="calories">Calories</string>
-    <string name="constraint">Constraint</string>
-    <string name="AddProducts">Add Products</string>
-    <string name="calorieExplanation">In order to know how many calories and macro nutrients you need, you have to use this calculator</string>
-    <string name="weight">Weight</string>
+    <string name="protein">ცილა</string>
+    <string name="carb">ნახშირწყლები</string>
+    <string name="fat">ცხიმი</string>
+    <string name="calories">კალორია</string>
+    <string name="constraint">შეზღუდვა</string>
+    <string name="AddProducts">პროდუქტის დამატება</string>
+    <string name="calorieExplanation">თქვენთვის საჭირო კალორიებისა და შემადგენლობის გასარკვევად უნდა ისარგებლოთ ამ კალკულატორით</string>
+    <string name="weight">წონა</string>
     <string name="lbs">lbs</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="preference_file_key">home.gio.calorieplanner.personsDetails</string>
-    <string name="main">Main</string>
+    <string name="preference_file_key">home.gio.calorieplanner</string>
+    <string name="main">მთავარი</string>
     <string-array name="markets_array">
-        <item>Goodwill</item>
-        <item>Nikora</item>
-        <item>Foodmart</item>
-        <item>Spar</item>
-        <item>Nugeshi</item>
+        <item>გუდვილი</item>
+        <item>ნიკორა</item>
+        <item>ფუდმარტი</item>
+        <item>სპარი</item>
+        <item>ნუგეში</item>
     </string-array>
     <string-array name="navigation_array">
         <item>Calculate my calories</item>
@@ -38,38 +38,40 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="calculator">Calculator</string>
-    <string name="sex">sex</string>
-    <string name="height">Height</string>
-    <string name="lifestyle">lifestyle</string>
-    <string name="goal">Goal</string>
-    <string name="calculate">calculate</string>
-    <string name="metrics">Units</string>
+    <string name="calculator">კალკულატორი</string>
+    <string name="sex">სქესი</string>
+    <string name="height">სიმაღლე</string>
+    <string name="lifestyle">ცხოვრების წესი</string>
+    <string name="goal">მიზანი</string>
+    <string name="calculate">გამოთვალე</string>
+    <string name="metrics">ერთეული</string>
     <string name="inches">inches</string>
-    <string name="age">Age</string>
-    <string name="name_of_person">Name of person</string>
-    <string name="save_in_list">Save in List</string>
-    <string name="go_to_shopping_list">Go to Shopping list</string>
-    <string name="deleting_people">deleting people</string>
-    <string name="name">Name of person</string>
-    <string name="persons_list">Persons list</string>
-    <string name="kg">kg</string>
-    <string name="cm">cm</string>
-    <string name="permission_write_external_rationale">In order to download product database from server, you must grant access to internal storage</string>
+    <string name="age">ასაკი</string>
+    <string name="name_of_person">სახელი</string>
+    <string name="save_in_list">შენახვა</string>
+    <string name="go_to_shopping_list">საყიდლების სიაზე გადასვლა</string>
+    <string name="deleting_people">ხალხის წაშლა</string>
+    <string name="name">სახელი</string>
+    <string name="persons_list">ხალხის სია</string>
+    <string name="kg">კგ</string>
+    <string name="cm">სმ</string>
+    <string name="permission_write_external_rationale">მონაცემების სერვერიდან გადმოსაწერად საჭიროა წვდომა შიდა მეხსიერებასთან</string>
+    <string name="permission_internet_rationale">სერვერზე წვდომისათვის საჭიროა ინტერნეტი</string>
     <string name="ok">OK</string>
-    <string name="search">Search</string>
-    <string name="filter">Filter</string>
-    <string name="menu">Menu</string>
-    <string name="products">Products</string>
-    <string name="clear">Clear choices</string>
-    <string name="choose">Choose products</string>
-    <string name="save_and_return">Save &amp; return</string>
-    <string name="total_price">Total price:</string>
-    <string name="currency">Total price: %1$s Gel</string>
-    <string name="shopping_list">Shopping List</string>
-    <string name="remove">Remove item</string>
+    <string name="search">ძებნა</string>
+    <string name="filter">ფილტრი</string>
+    <string name="menu">მენიუ</string>
+    <string name="products">პროდუქტები</string>
+    <string name="clear">არჩეულის გასუფთავება</string>
+    <string name="choose">პროდუქტის არჩევა</string>
+    <string name="save_and_return">შენახვა &amp; დაბრუნება</string>
+    <string name="total_price">საერთო ფასი:</string>
+    <string name="currency">საერთო ფასი: %1$s ლარი</string>
+    <string name="shopping_list">საყიდლების სია</string>
+    <string name="remove">წაშლა</string>
     <string name="start_shopping">Start shopping</string>
-    <string name="create_nutritional_plan">Create nutritional plan</string>
-    <string name="add_or_remove">Add or remove</string>
+    <string name="create_nutritional_plan">პირადი საყიდლები</string>
+    <string name="add_or_remove">+/-</string>
     <string name="minus">minus</string>
+    <string name="clear_all">სიის გასუფთავება</string>
 </resources>

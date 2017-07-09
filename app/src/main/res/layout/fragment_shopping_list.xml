@@ -27,40 +27,42 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/full_list"
             android:layout_width="match_parent"
-            android:layout_height="435dp" />
+            android:layout_height="@dimen/full_list_recycler_height" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/last_textViews_linear_height"
         android:layout_below="@+id/recycler_shopping_list"
         android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/clear_all_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:text="@string/clear_all" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginLeft="@dimen/price_textView_margin_left"
+            android:layout_marginStart="@dimen/price_textView_margin_start"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/total_price"
             android:textStyle="bold" />
-
-        <View
-            android:id="@+id/empty_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/clear_shopping_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="@dimen/clear_button_margin_end"
+            android:layout_marginRight="@dimen/clear_button_margin_right"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/remove" />

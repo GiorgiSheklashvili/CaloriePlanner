@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +41,7 @@ public class App extends Application {
     }
 
     public static void listToGson(Activity activity, List<String> list, String key) {
-        SharedPreferences sharedPrefs = activity.getPreferences(activity.MODE_PRIVATE);
+        SharedPreferences sharedPrefs = activity.getSharedPreferences(activity.getString(R.string.preference_file_key),activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         Gson gson = new Gson();
         String toJson = gson.toJson(list);
@@ -48,11 +50,19 @@ public class App extends Application {
     }
 
     public static ArrayList<String> listFromGson(Activity activity, String key) {
-        SharedPreferences sharedPrefs = activity.getPreferences(activity.MODE_PRIVATE);
+        SharedPreferences sharedPrefs = activity.getSharedPreferences(activity.getString(R.string.preference_file_key),activity.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPrefs.getString(key, null);
         Type type = new TypeToken<ArrayList<String>>() {
         }.getType();
         return gson.fromJson(json, type);
+    }
+
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 }

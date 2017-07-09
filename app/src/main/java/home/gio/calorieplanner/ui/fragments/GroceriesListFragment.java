@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +48,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     private List<Person> personList;
     private List<String> namesList;
     private List<String> productList;
-//    private List<Integer> numbersList;
+    //    private List<Integer> numbersList;
     private GroceriesListPresenter presenter;
     private RecyclerView.LayoutManager layoutManager;
     private GroceriesListAdapter groceriesListAdapter;
@@ -80,13 +82,19 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         position = getArguments().getInt("positionOfViewpager", -1);
         View rootView = inflater.inflate(R.layout.fragment_groceries_list, container, false);
         ButterKnife.bind(this, rootView);
-        sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        layoutManager = new LinearLayoutManager(getContext());
+        sharedPrefs = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
         presenter = new GroceriesListPresenter(this);
         namesList = new ArrayList<>();
         namesList.add("None");
@@ -101,11 +109,12 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
         fatEditText.addTextChangedListener(fatTextWatcher);
         carbsEditText.addTextChangedListener(carbTextWatcher);
         if (this.productList != null && sharedPrefs.getInt("personRow", -1) != -1 && position != -1) {
+            layoutManager = new LinearLayoutManager(getContext());
             groceriesListAdapter = new GroceriesListAdapter(productList, getActivity());
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(groceriesListAdapter);
             updateTextViews(groceriesListAdapter.productList);
         }
-        recyclerView.setLayoutManager(layoutManager);
         addProduct.setOnClickListener(this);
         removeProduct.setOnClickListener(removeListener);
         spinner = (Spinner) rootView.findViewById(R.id.nameSpinner);
@@ -230,7 +239,7 @@ public class GroceriesListFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onClick(View view) {
         SubMenuAndFilterFragment productsCatalog = new SubMenuAndFilterFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main_container, productsCatalog).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit).replace(R.id.fragment_main_container, productsCatalog).addToBackStack(null).commit();
 
     }
 

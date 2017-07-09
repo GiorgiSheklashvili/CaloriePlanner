@@ -11,7 +11,4 @@ public class Category extends MultiCheckExpandableGroup{
         super(title, items);
     }
 
-
-
-
 }

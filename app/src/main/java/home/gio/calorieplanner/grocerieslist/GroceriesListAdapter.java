@@ -30,7 +30,7 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
     private ViewHolderInterface callback;
     public List<Integer> positionList = new ArrayList<>();
 //    private List<Integer> numberOfProductsList;
-    private SharedPreferences.Editor editor;
+//    private SharedPreferences.Editor editor;
 
     interface ViewHolderInterface {
         void OnItemClicked(int position, boolean isChecked);
@@ -39,8 +39,8 @@ public class GroceriesListAdapter extends RecyclerView.Adapter<GroceriesListAdap
     }
 
     public GroceriesListAdapter(List<String> productList,  Activity activity) {
-        SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+//        SharedPreferences sharedPreferences = activity.getSharedPreferences(activity.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
 //        this.numberOfProductsList = numberOfProductsList1;
 //        if (numberOfProductsList1.size() == 0) {
 //            for (int i = 0; i < productList.size(); i++) {

@@ -1,6 +1,7 @@
 package home.gio.calorieplanner.ui.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import home.gio.calorieplanner.R;
@@ -24,17 +26,17 @@ public class GroceriesViewpagerFragment extends Fragment {
     int viewPagerPosition = 0;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    public static boolean isVisible;
 
     public GroceriesViewpagerFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         mViewpager = (ViewPager) view.findViewById(R.id.pager);
         mViewpager.setAdapter(new GroceriesViewPagerAdapter(getChildFragmentManager()));

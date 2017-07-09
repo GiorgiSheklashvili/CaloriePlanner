@@ -47,6 +47,7 @@ public class PersonsList implements IPersonsListModel {
             SharedPreferences.Editor editor = sharedPrefs.edit();
             String toJson = gson.toJson(persons);
             editor.putString("oldData", toJson);
+            editor.remove("newData");
             editor.commit();
         }
         return persons;

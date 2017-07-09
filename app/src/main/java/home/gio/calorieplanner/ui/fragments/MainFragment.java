@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -35,6 +38,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import home.gio.calorieplanner.App;
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.main.PersonsAdapter;
 import home.gio.calorieplanner.main.IMainView;
@@ -49,7 +53,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private View mLayout, rootView;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    private List<String> listData=new ArrayList<>();
+    private List<String> listData = new ArrayList<>();
+    private static boolean firstOpen = true;
 
     public MainFragment() {
         // Required empty public constructor
@@ -58,15 +63,25 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new MainPresenter(this);
+        if (firstOpen) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                presenter.loadDataFromDatabase(getContext());
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+            }
+            firstOpen = false;
+        }
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        presenter = new MainPresenter(this);
+
 //        presenter.parseGoodwillSakvebiProductebiHTML(getContext());    //parser
-        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         if (!sharedPreferences.getString("personNameList", "").equals("")) {
             try {
                 JSONArray jsonArray = new JSONArray(sharedPreferences.getString(
@@ -79,7 +94,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                 e.printStackTrace();
             }
         }
-        if(listData.size()==0){
+        if (listData.size() == 0) {
             listData.add("");
         }
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -111,7 +126,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             editor.putString("personNameList", new JSONArray(personSet).toString());
             listData.clear();
         }
-
         editor.apply();
     }
 
@@ -119,11 +133,14 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onStart() {
         super.onStart();
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            presenter.loadDataFromDatabase(getContext());
-        } else {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+        if (firstOpen) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                presenter.loadDataFromDatabase(getContext());
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+            }
+            firstOpen = false;
         }
     }
 
@@ -165,6 +182,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     presenter.loadDataFromDatabase(getContext());
+                    firstOpen = false;
                     // permission was granted
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -202,5 +220,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         }
 
     }
+
 
 }

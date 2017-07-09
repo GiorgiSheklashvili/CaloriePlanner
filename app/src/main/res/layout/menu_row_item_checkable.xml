@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginBottom="@dimen/menu_item_margin_bottom"
+        android:layout_marginEnd="@dimen/menu_item_margin_end"
+        android:layout_marginLeft="@dimen/menu_item_margin_left"
+        android:layout_marginRight="@dimen/menu_item_margin_right"
+        android:layout_marginStart="@dimen/menu_item_margin_start"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center" />
 </LinearLayout>

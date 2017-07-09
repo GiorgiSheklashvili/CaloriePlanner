@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
 import java.util.List;
+
 import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.models.Person;
 
@@ -25,9 +27,9 @@ public class CalculatedCaloriesAdapter extends RecyclerView.Adapter<CalculatedCa
         void itemRemoved(int position);
     }
 
-    public CalculatedCaloriesAdapter(final List<Person> personList, final Context context) {
+    public CalculatedCaloriesAdapter(final List<Person> personList, final Context context1) {
         this.personList = personList;
-        this.context = context;
+        this.context = context1;
         mCallback = new OnItemRemovedListener() {
             @Override
             public void itemRemoved(int position) {

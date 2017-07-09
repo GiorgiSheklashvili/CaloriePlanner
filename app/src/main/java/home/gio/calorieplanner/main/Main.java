@@ -1,13 +1,19 @@
 package home.gio.calorieplanner.main;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
+import android.media.tv.TvContract;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.util.SparseArray;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,8 +41,11 @@ import java.util.regex.Pattern;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
+import home.gio.calorieplanner.App;
+import home.gio.calorieplanner.R;
 import home.gio.calorieplanner.models.Product;
 import home.gio.calorieplanner.models.RetailChain;
+import home.gio.calorieplanner.ui.fragments.MainFragment;
 
 public class Main implements IMainModel {
     public RetailChain retailChain = new RetailChain();
@@ -45,6 +54,7 @@ public class Main implements IMainModel {
     private List<Product> productList = new ArrayList<>();
     private DatabaseReference databaseReference;
     private SharedPreferences prefs = null;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void parseGoodwillSakvebiProductebiHTML(final Context context) {
@@ -109,51 +119,79 @@ public class Main implements IMainModel {
     }
 
     @Override
-    public void loadDataFromDatabase(Context context) {
-        prefs = context.getSharedPreferences("home.gio.calorieplanner", context.MODE_PRIVATE);
+    public void loadDataFromDatabase(final Context context) {
+        Main.AsyncLoader task = new Main.AsyncLoader(context);
+        task.execute();
+    }
+
+    public void load(final Context context) {
+        prefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
         if (prefs.getBoolean("firstRun", true)) {
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-            prefs.edit().putBoolean("firstRun", false).apply();
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
-                        RetailChain retailChain = new RetailChain();
-                        retailChain.setName(categorySnaps.getKey());
-                        for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
-                            for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
-                                for (DataSnapshot productSnaps : itemSnaps.getChildren()) {
-                                    Product product = productSnaps.getValue(Product.class);
-                                    productList.add(product);
+            if (App.isConnectedToInternet(context)) {
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                prefs.edit().putBoolean("firstRun", false).apply();
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot categorySnaps : dataSnapshot.getChildren()) {
+                            RetailChain retailChain = new RetailChain();
+                            retailChain.setName(categorySnaps.getKey());
+                            for (DataSnapshot subMenuSnaps : categorySnaps.getChildren()) {
+                                for (DataSnapshot itemSnaps : subMenuSnaps.getChildren()) {
+                                    for (DataSnapshot productSnaps : itemSnaps.getChildren()) {
+                                        Product product = productSnaps.getValue(Product.class);
+                                        productList.add(product);
+                                    }
                                 }
                             }
+                            retailChain.setProducts(productList);
+                            retailChainList.add(retailChain);
                         }
-                        retailChain.setProducts(productList);
-                        retailChainList.add(retailChain);
+
+                        writeInFile(context);
+//                        outRetailChainList = retailChainList;
                     }
 
-                    writeInFile();
-                    outRetailChainList = retailChainList;
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.w("database error: ", "onCancelled", databaseError.toException());
-                }
-            });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("database error: ", "onCancelled", databaseError.toException());
+                    }
+                });
+            } else {
+                editor = prefs.edit();
+                editor.putBoolean("firstRun", true);
+                editor.apply();
+                AlertDialog.Builder alertBuilder;
+                alertBuilder = new AlertDialog.Builder(context, android.R.style.Theme_Dialog);
+                alertBuilder.setMessage("ინტერნეტთან წვდომა არ არის, გთხოვთ ჩართეთ და სცადეთ თავიდან")
+                        .setPositiveButton("ხელახლა ცდა", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                loadDataFromDatabase(context);
+                            }
+                        })
+                        .setTitle("ინტერნეტი")
+                        .setCancelable(false)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         } else {
             readFile();
-
         }
     }
 
-    private void writeInFile() {
+    private void writeInFile(Context context) {
         ObjectOutput out;
         try {
+            prefs = context.getSharedPreferences(context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
             File outFile = new File(Environment.getExternalStorageDirectory(), "appSavedListData.data");
             out = new ObjectOutputStream(new DeflaterOutputStream(new FileOutputStream(outFile)));
             out.writeObject(retailChainList);
+            outRetailChainList = retailChainList;
+            editor = prefs.edit();
+            editor.putBoolean("filesRead", true);
+            editor.commit();
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,6 +206,9 @@ public class Main implements IMainModel {
             ObjectInputStream ois = new ObjectInputStream(new InflaterInputStream(new FileInputStream(inFile)));
             outRetailChainList = (List<RetailChain>) ois.readObject();
             ois.close();
+            editor = prefs.edit();
+            editor.putBoolean("filesRead", true);
+            editor.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -225,6 +266,7 @@ public class Main implements IMainModel {
         matcher.find();
         return matcher.group();
     }
+
     public static String getMyCalories(String details) {
         int index = details.indexOf("კალორიები:");
         if (index == -1)
@@ -242,6 +284,35 @@ public class Main implements IMainModel {
         if (index == -1)
             return "0";
         return details.substring(index, details.length());
+    }
+
+    public class AsyncLoader extends AsyncTask<Void, Void, Void> {
+        private Context context;
+        private ProgressDialog pdLoading;
+
+        public AsyncLoader(Context context) {
+            this.context = context;
+            pdLoading = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdLoading.setMessage("მიმდინარეობს მონაცემების ჩატვირთვა");
+            pdLoading.show();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pdLoading.dismiss();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            load(context);
+            return null;
+        }
     }
 
 }

@@ -17,11 +17,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="@dimen/free_view" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/erteuli_height"
             android:orientation="horizontal">
 
             <TextView
@@ -42,7 +42,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/weight_height"
             android:orientation="horizontal">
 
             <TextView
@@ -59,13 +59,12 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/kg"
-                android:inputType="numberSigned"
-                />
+                android:inputType="numberSigned" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/height_height"
             android:orientation="horizontal">
 
             <TextView
@@ -73,9 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/height"
                 android:inputType=""
-                />
+                android:text="@string/height" />
 
             <EditText
                 android:id="@+id/heightEditText"
@@ -89,7 +87,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/age_height"
             android:orientation="horizontal">
 
             <TextView
@@ -110,7 +108,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/gender_height"
             android:orientation="horizontal">
 
             <TextView
@@ -130,7 +128,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/lifestyle_height"
             android:orientation="horizontal">
 
             <TextView
@@ -151,7 +149,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/goal_height"
             android:orientation="horizontal">
 
             <TextView
@@ -181,14 +179,14 @@
             android:id="@+id/nutritionFactsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/nutrition_facts_layout_margin"
             android:background="@drawable/rectangle_border"
             android:orientation="vertical"
             android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/calories_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -204,13 +202,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="number"
-                    />
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/protein_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -226,13 +223,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="number"
-                    />
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/fat_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -248,12 +244,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="number"/>
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/carbohydrates_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -269,13 +265,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="number"
-                    />
+                    android:inputType="number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/name_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -290,7 +285,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="textCapSentences"/>
+                    android:inputType="textCapSentences" />
 
                 <Button
                     android:id="@+id/save_in_list"
